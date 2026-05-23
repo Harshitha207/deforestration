@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TerraGuard Core - Spatiotemporal Analytics</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    {% block head %}{% endblock %}
+</head>
+<body class="{% if request.path == '/' %}no-sidebar{% endif %}">
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i data-lucide="map" class="text-accent"></i>
+                    <span>TerraGuard Flask</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="/" class="nav-item {% if request.path == '/' %}active{% endif %}">
+                    <i data-lucide="layout-dashboard"></i>
+                    <div class="nav-item-meta">
+                        <span>1. Welcome Hub</span>
+                        <span class="file-label">home.html</span>
+                    </div>
+                </a>
+                
+                <a href="/dashboard" class="nav-item {% if request.path == '/dashboard' %}active{% endif %}">
+                    <i data-lucide="activity"></i>
+                    <div class="nav-item-meta">
+                        <span>2. Map Visualization</span>
+                        <span class="file-label">dashboard.html</span>
+                    </div>
+                </a>
+                
+                <a href="/reports" class="nav-item {% if request.path == '/reports' %}active{% endif %}">
+                    <i data-lucide="database"></i>
+                    <div class="nav-item-meta">
+                        <span>3. Report Generation</span>
+                        <span class="file-label">reports.html</span>
+                    </div>
+                </a>
+                
+                <a href="/charts" class="nav-item {% if request.path == '/charts' %}active{% endif %}">
+                    <i data-lucide="trending-up"></i>
+                    <div class="nav-item-meta">
+                        <span>4. Statistical Charts</span>
+                        <span class="file-label">charts.html</span>
+                    </div>
+                </a>
+                
+                <a href="/about" class="nav-item {% if request.path == '/about' %}active{% endif %}">
+                    <i data-lucide="globe"></i>
+                    <div class="nav-item-meta">
+                        <span>5. Platform Telemetry</span>
+                        <span class="file-label">about.html</span>
+                    </div>
+                </a>
+            </nav>
+            
+            <div style="padding: 16px; border-top: 1px solid var(--border-color); text-align: center;">
+                <span style="font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <span class="legend-dot animate-pulse" style="background: var(--success); width: 8px; height: 8px;"></span>
+                    Python API Node: Online
+                </span>
+            </div>
+        </aside>
+
+        <!-- Main Window Container -->
+        <main class="main-content">
+            <header class="header">
+                <div>
+                    <span style="font-size: 0.8rem; color: var(--text-secondary); font-family: 'Fira Code', monospace;">Engine version: v8.0.13</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <a href="http://localhost:5173" target="_blank" class="btn btn-secondary" style="padding: 6px 14px; font-size: 0.8rem; border-radius: 8px;">
+                        <i data-lucide="external-link" style="width: 14px; height: 14px;"></i> Switch to React UI
+                    </a>
+                </div>
+            </header>
+
+            <div class="page-container">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Redirect to welcome screen if a page reload is detected on any subpage
+        try {
+            const navEntries = performance.getEntriesByType("navigation");
+            if (navEntries.length > 0 && navEntries[0].type === "reload" && window.location.pathname !== "/") {
+                window.location.href = "/";
+            }
+        } catch (err) {
+            console.warn("Navigation timing check bypassed:", err);
+        }
+
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

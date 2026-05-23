@@ -1,0 +1,540 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<!-- Leaflet Map CSS & JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+    .map-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        height: calc(100vh - 110px);
+        margin: -20px;
+        background: var(--bg-primary);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .map-container-area {
+        position: relative;
+        height: 100%;
+        width: 100%;
+    }
+
+    #map {
+        height: 100%;
+        width: 100%;
+        background: #080c14;
+    }
+
+    .floating-top-bar {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        right: 20px;
+        z-index: 1000;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .glass-input-card {
+        background: rgba(13, 21, 39, 0.7);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        padding: 6px 12px;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .map-sidebar {
+        background: var(--bg-secondary);
+        border-left: 1px solid var(--border-color);
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        overflow-y: auto;
+        height: 100%;
+    }
+
+    .metric-item {
+        background: rgba(255, 255, 255, 0.015);
+        border: 1px solid var(--border-light);
+        border-radius: 12px;
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="map-wrapper" id="mapWrapper" style="animation: fadeIn 0.8s ease-out;">
+
+    <!-- Left Area: Core Map View with overlays -->
+    <div class="map-container-area">
+        <div id="map"></div>
+
+        <!-- Floating Config Controls -->
+        <div class="floating-top-bar">
+            <!-- Dynamic Search input -->
+            <form id="geocoderForm" class="glass-input-card" style="flex: 1; min-width: 280px; padding: 10px 14px;">
+                <span id="mapSearchText" style="color: var(--text-primary); font-size: 0.9rem;">Search any place or forest coord (e.g. Amazon, Borneo, Congo...)</span>
+                <input type="hidden" id="mapSearchInput" value="" />
+                <button type="submit" class="btn btn-primary"
+                    style="padding: 6px 14px; font-size: 0.8rem; border-radius: 6px; margin-left: 10px; display: none;">
+                    Navigate
+                </button>
+            </form>
+
+            <!-- Start/End Years selects -->
+            <div class="glass-input-card" style="gap: 12px; padding: 10px 14px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span id="mapStartYearText" style="color: var(--text-primary); font-size: 0.9rem;">2000</span>
+                    <input type="hidden" id="mapStartYear" value="2000" />
+                    <i data-lucide="arrow-right" style="width: 14px; height: 14px; color: var(--text-secondary);"></i>
+                    <span id="mapEndYearText" style="color: var(--text-primary); font-size: 0.9rem;">2024</span>
+                    <input type="hidden" id="mapEndYear" value="2024" />
+                </div>
+            </div>
+
+            <!-- Satellite Layer Switcher -->
+            <div class="glass-input-card" style="gap: 4px; padding: 4px;">
+                <button id="toggleNormalBtn" class="btn"
+                    style="padding: 6px 12px; font-size: 0.78rem; border-radius: 6px; border: none; background: transparent; color: var(--text-secondary);">
+                    Map
+                </button>
+                <button id="toggleSatBtn" class="btn btn-primary"
+                    style="padding: 6px 12px; font-size: 0.78rem; border-radius: 6px; border: none;">
+                    Satellite
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Area: Telemetry side bar -->
+    <aside class="map-sidebar">
+        <div>
+            <span
+                style="font-size: 0.75rem; text-transform: uppercase; color: var(--accent-primary); font-weight: 700; letter-spacing: 0.05em;">Interactive
+                Telemetry</span>
+            <h2 id="sidebarTitle" style="font-size: 1.4rem; margin-top: 4px; line-height: 1.2;">Amazon Basin</h2>
+            <p id="sidebarCoords"
+                style="font-size: 0.75rem; color: var(--text-secondary); font-family: 'Fira Code', monospace; margin-top: 4px;">
+                -3.4653° N, -62.2159° E</p>
+        </div>
+
+        <div style="display: none !important; gap: 8px; width: 100%;">
+            <button id="runMapAnalysisBtn" class="btn btn-primary" style="flex: 2; padding: 12px; font-size: 0.92rem;">
+                <i data-lucide="play" style="width: 16px; height: 16px;"></i> Run Canopy Analysis
+            </button>
+            <button id="clearMapStateBtn" class="btn btn-secondary"
+                style="flex: 1; padding: 12px; font-size: 0.92rem; border-color: rgba(239, 68, 68, 0.25); color: var(--danger); display: flex; align-items: center; justify-content: center; gap: 6px;">
+                <i data-lucide="eraser" style="width: 16px; height: 16px;"></i> Reset
+            </button>
+        </div>
+
+        <!-- Loading state -->
+        <div id="mapSidebarLoader" style="display: none; text-align: center; padding: 30px 0;">
+            <i data-lucide="refresh-cw" class="animate-spin text-accent"
+                style="width: 36px; height: 36px; margin-bottom: 8px;"></i>
+            <p style="font-size: 0.85rem; color: var(--text-secondary);">Executing spatiotemporal band telemetry...</p>
+        </div>
+
+        <!-- Results panel -->
+        <div id="mapSidebarResults" class="flex-col gap-4" style="display: flex;">
+            <div class="metric-item">
+                <span style="font-size: 0.75rem; color: var(--text-secondary);">Remaining Canopy Cover</span>
+                <h3 id="panelForestCover" style="font-size: 1.3rem; font-weight: 700; color: var(--accent-primary);">
+                    84.6%</h3>
+            </div>
+
+            <div class="metric-item" style="border-left: 3px solid var(--danger);">
+                <span style="font-size: 0.75rem; color: var(--text-secondary);">Deforestation Rate</span>
+                <h3 id="panelDeforestationRate" style="font-size: 1.3rem; font-weight: 700; color: var(--danger);">1.84%
+                </h3>
+            </div>
+
+            <div class="metric-item">
+                <span style="font-size: 0.75rem; color: var(--text-secondary);">Vegetation NDVI Index</span>
+                <h3 id="panelNdvi" style="font-size: 1.3rem; font-weight: 700; color: var(--warning);">0.74</h3>
+            </div>
+
+            <div id="panelAlertBox"
+                style="padding: 14px; border-radius: 12px; font-size: 0.82rem; border: 1px solid rgba(255,255,255,0.05); background: rgba(16, 185, 129, 0.08); display: flex; gap: 10px; align-items: start; line-height: 1.4;">
+                <i data-lucide="shield-check" id="panelAlertIcon"
+                    style="flex-shrink: 0; width: 16px; height: 16px; color: var(--accent-primary); margin-top: 2px;"></i>
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <div id="panelAlertTitle" style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;">NOMINAL: Stable canopy</div>
+                    <div id="panelAlertText" style="color: var(--text-secondary);">Biosphere canopy is currently stable and within safe ecological limits.</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+</div>
+
+<!-- Map Offline Placeholder -->
+<div id="mapOfflineContainer" style="display: none; padding: 24px; flex-direction: column; gap: 24px; min-height: calc(100vh - 120px); width: 100%; align-items: center; justify-content: center;">
+    <div class="glass-panel" style="padding: 48px 40px; max-width: 560px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 20px; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 16px;">
+        <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(16,185,129,0.1); display: flex; align-items: center; justify-content: center;">
+            <i data-lucide="map" class="text-accent" style="width: 36px; height: 36px;"></i>
+        </div>
+        <h2 style="font-size: 1.4rem; font-weight: 700; color: var(--text-primary);">Map Visualization Offline</h2>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; max-width: 420px;">
+            The interactive map and biosphere analysis will be generated once you enter a target location and start analysis on the <strong>Dashboard</strong>.
+        </p>
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+            <a href="http://localhost:5173" class="btn btn-primary" style="padding: 10px 24px; font-size: 0.88rem; display: flex; align-items: center; gap: 8px; text-decoration: none;">
+                Go to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Global Map Variables
+    let map = null;
+    let satLayer = null;
+    let normalLayer = null;
+    let mapCenter = [-3.4653, -62.2159]; // Amazon default coordinates
+    let mapZoom = 4;
+    let mapOverlays = [];
+    let selectedLocationName = "Amazon Basin";
+
+    // 1. Elements mapping
+    const toggleNormalBtn = document.getElementById('toggleNormalBtn');
+    const toggleSatBtn = document.getElementById('toggleSatBtn');
+    const geocoderForm = document.getElementById('geocoderForm');
+    const mapSearchInput = document.getElementById('mapSearchInput');
+    const mapStartYear = document.getElementById('mapStartYear');
+    const mapEndYear = document.getElementById('mapEndYear');
+    const runMapAnalysisBtn = document.getElementById('runMapAnalysisBtn');
+
+    const sidebarTitle = document.getElementById('sidebarTitle');
+    const sidebarCoords = document.getElementById('sidebarCoords');
+    const panelForestCover = document.getElementById('panelForestCover');
+    const panelDeforestationRate = document.getElementById('panelDeforestationRate');
+    const panelNdvi = document.getElementById('panelNdvi');
+    const panelAlertBox = document.getElementById('panelAlertBox');
+    const panelAlertIcon = document.getElementById('panelAlertIcon');
+    const panelAlertTitle = document.getElementById('panelAlertTitle');
+    const panelAlertText = document.getElementById('panelAlertText');
+    const mapSidebarLoader = document.getElementById('mapSidebarLoader');
+    const mapSidebarResults = document.getElementById('mapSidebarResults');
+
+    function absSinHash(lat, lon) {
+        const val = Math.sin(lat * 12.9898 + lon * 78.233) * 43758.5453;
+        return Math.abs(val - Math.floor(val));
+    }
+
+    // 2. Leaflet Map Initialization function (only called if online/data exists)
+    function initializeLeafletMap() {
+        map = L.map('map', {
+            zoomControl: false
+        }).setView(mapCenter, mapZoom);
+
+        satLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, USDA, USGS'
+        });
+
+        normalLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        });
+
+        // Set default layer to Esri Satellite
+        satLayer.addTo(map);
+    }
+
+    // Start/End Years logic validations
+    mapStartYear.addEventListener('change', () => {
+        if (parseInt(mapStartYear.value) >= parseInt(mapEndYear.value)) {
+            mapEndYear.value = parseInt(mapStartYear.value) + 1;
+        }
+    });
+
+    mapEndYear.addEventListener('change', () => {
+        if (parseInt(mapEndYear.value) <= parseInt(mapStartYear.value)) {
+            mapStartYear.value = parseInt(mapEndYear.value) - 1;
+        }
+    });
+
+    // 4. Layers toggle event listeners
+    toggleNormalBtn.addEventListener('click', () => {
+        if (!map) return;
+        map.removeLayer(satLayer);
+        normalLayer.addTo(map);
+        toggleNormalBtn.className = "btn btn-primary";
+        toggleSatBtn.className = "btn";
+        toggleSatBtn.style.background = "transparent";
+        toggleSatBtn.style.color = "var(--text-secondary)";
+    });
+
+    toggleSatBtn.addEventListener('click', () => {
+        if (!map) return;
+        map.removeLayer(normalLayer);
+        satLayer.addTo(map);
+        toggleSatBtn.className = "btn btn-primary";
+        toggleNormalBtn.className = "btn";
+        toggleNormalBtn.style.background = "transparent";
+        toggleNormalBtn.style.color = "var(--text-secondary)";
+    });
+
+    // 5. Geocoding Navigation is disabled (no-op)
+    geocoderForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+    });
+
+    // 7. POST API Calls Deforestation Engine
+    async function executeCanopyAnalysis() {
+        if (!map) return;
+        mapSidebarResults.style.display = "none";
+        mapSidebarLoader.style.display = "block";
+        if (runMapAnalysisBtn) runMapAnalysisBtn.disabled = true;
+
+        try {
+            const payload = {
+                location: selectedLocationName,
+                start_year: parseInt(mapStartYear.value),
+                end_year: parseInt(mapEndYear.value),
+                lat: mapCenter[0],
+                lon: mapCenter[1]
+            };
+
+            const response = await fetch('/analyze', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+            if (data.error) throw new Error(data.error);
+
+            try {
+                localStorage.setItem('tg_last_analysis_meta', JSON.stringify(payload));
+                localStorage.setItem('tg_last_analysis_data', JSON.stringify(data));
+            } catch (err) { }
+
+            panelForestCover.innerText = `${data.forest_percent}%`;
+            panelDeforestationRate.innerText = `${data.deforestation_percent}%`;
+            panelNdvi.innerText = data.ndvi.toFixed(2);
+
+            panelAlertTitle.innerText = data.alert.status;
+            panelAlertTitle.style.color = data.alert.badge_color;
+            panelAlertText.innerText = data.alert.message;
+            panelAlertBox.style.background = data.alert.severity === 'CRITICAL' ? 'rgba(239, 68, 68, 0.08)' :
+                data.alert.severity === 'HIGH' ? 'rgba(245, 158, 11, 0.08)' :
+                    'rgba(16, 185, 129, 0.08)';
+            panelAlertBox.style.borderColor = data.alert.badge_color;
+            panelAlertIcon.style.color = data.alert.badge_color;
+
+            panelAlertIcon.setAttribute('data-lucide', data.alert.severity === 'CRITICAL' ? 'shield-alert' :
+                data.alert.severity === 'HIGH' ? 'alert-triangle' : 'shield-check');
+            lucide.createIcons();
+
+            renderVisualOverlays(mapCenter, data);
+
+        } catch (error) {
+            console.error(error);
+            alert("Connection error with Flask analysis engine.");
+        } finally {
+            mapSidebarLoader.style.display = "none";
+            mapSidebarResults.style.display = "flex";
+            if (runMapAnalysisBtn) runMapAnalysisBtn.disabled = false;
+        }
+    }
+
+    // Helper function to draw map overlays (used by both live analysis and saved state loads)
+    function renderVisualOverlays(centerCoords, data) {
+        if (!map) return;
+        mapOverlays.forEach(overlay => map.removeLayer(overlay));
+        mapOverlays = [];
+
+        const baseRadius = 70000;
+
+        // Draw the single unified Green Circle (Lush Forest Canopy)
+        const greenCircle = L.circle(centerCoords, {
+            radius: baseRadius,
+            color: '#10b981',
+            fillColor: '#10b981',
+            fillOpacity: 0.26,
+            weight: 2
+        }).addTo(map);
+
+        greenCircle.bindPopup(`
+            <div style="font-family: Inter; color: #080c14; font-size: 0.8rem; padding: 2px;">
+                <strong>${selectedLocationName} Forest Preserve</strong><br/>
+                <span style="color:#10b981; font-weight:700;">●</span> Healthy Preserved Forest: ${data.forest_percent}%<br/>
+                <span style="color:#ef4444; font-weight:700;">●</span> Active Canopy Loss: ${data.deforestation_percent}%
+            </div>
+        `);
+
+        mapOverlays.push(greenCircle);
+
+        // Draw dynamic Red Circles (Deforestation Hotspots) scattered above/inside the Green Circle
+        const totalRedHotspots = 5;
+        const redHotspotRadius = (baseRadius * 0.28) * Math.sqrt(data.deforestation_percent / 100);
+
+        if (data.deforestation_percent > 0) {
+            for (let i = 0; i < totalRedHotspots; i++) {
+                const angle = (i * 2 * Math.PI) / totalRedHotspots + (centerCoords[0] * 0.3);
+                const distanceRatio = 0.22 + 0.48 * absSinHash(centerCoords[0] + i, centerCoords[1] - i);
+                const distance = baseRadius * distanceRatio;
+
+                const latOffset = (Math.sin(angle) * distance) / 111000;
+                const lonOffset = (Math.cos(angle) * distance) / (111000 * Math.cos((centerCoords[0] * Math.PI) / 180));
+
+                const hotspotCoords = [centerCoords[0] + latOffset, centerCoords[1] + lonOffset];
+
+                const redHotspot = L.circle(hotspotCoords, {
+                    radius: redHotspotRadius,
+                    color: '#ef4444',
+                    fillColor: '#ef4444',
+                    fillOpacity: 0.58,
+                    weight: 1.5
+                }).addTo(map);
+
+                redHotspot.bindPopup(`
+                    <div style="font-family: Inter; color: #080c14; font-size: 0.8rem; padding: 2px;">
+                        <strong>Active Deforestation Zone #${i + 1}</strong><br/>
+                        Status: <span style="color:#ef4444; font-weight:700;">Active Canopy Loss</span><br/>
+                        Deforestation Rate: ${data.deforestation_percent}%
+                    </div>
+                `);
+
+                mapOverlays.push(redHotspot);
+            }
+        }
+
+        greenCircle.openPopup();
+    }
+
+    // Clear/Erase Map State Button
+    const clearMapStateBtn = document.getElementById('clearMapStateBtn');
+    if (clearMapStateBtn) {
+        clearMapStateBtn.addEventListener('click', () => {
+            if (!confirm("Are you sure you want to erase all cached map searches and reset?")) return;
+
+            try {
+                localStorage.removeItem('tg_last_analysis_meta');
+                localStorage.removeItem('tg_last_analysis_data');
+                localStorage.removeItem('tg_map_lat');
+                localStorage.removeItem('tg_map_lon');
+                localStorage.removeItem('tg_map_name');
+                localStorage.removeItem('deforestation_search_details');
+            } catch (err) { }
+
+            window.location.reload();
+        });
+    }
+
+    if (runMapAnalysisBtn) {
+        runMapAnalysisBtn.addEventListener('click', executeCanopyAnalysis);
+    }
+
+    // Recovery & Offline Logic: check for cached persistent state in localStorage
+    try {
+        let cachedMeta = localStorage.getItem('tg_last_analysis_meta');
+        let cachedData = localStorage.getItem('tg_last_analysis_data');
+        const reactDetails = localStorage.getItem('deforestation_search_details');
+        
+        // Sync React UI details if present and Flask is empty
+        if (!cachedMeta && reactDetails) {
+            const parsed = JSON.parse(reactDetails);
+            if (parsed && (parsed.hasData || parsed.analysisData)) {
+                const meta = {
+                    location: parsed.activeRegionName || "Amazon Basin",
+                    start_year: parsed.yearStart || 2000,
+                    end_year: parsed.yearEnd || 2024,
+                    lat: parsed.selectedPin ? parsed.selectedPin.lat : -3.4653,
+                    lon: parsed.selectedPin ? parsed.selectedPin.lng : -62.2159
+                };
+                localStorage.setItem('tg_last_analysis_meta', JSON.stringify(meta));
+                if (parsed.analysisData) {
+                    localStorage.setItem('tg_last_analysis_data', JSON.stringify(parsed.analysisData));
+                }
+                cachedMeta = JSON.stringify(meta);
+                cachedData = parsed.analysisData ? JSON.stringify(parsed.analysisData) : null;
+            }
+        }
+
+        if (cachedMeta && cachedData) {
+            // Show map wrapper, hide offline container
+            document.getElementById('mapWrapper').style.display = 'grid';
+            document.getElementById('mapOfflineContainer').style.display = 'none';
+
+            const meta = JSON.parse(cachedMeta);
+            const data = JSON.parse(cachedData);
+
+            // Restore search and timeline variables
+            mapCenter = [meta.lat, meta.lon];
+            selectedLocationName = meta.location;
+            mapStartYear.value = meta.start_year;
+            mapEndYear.value = meta.end_year;
+            document.getElementById('mapStartYearText').innerText = meta.start_year;
+            document.getElementById('mapEndYearText').innerText = meta.end_year;
+
+            if (meta.location !== "Custom Pin Point") {
+                mapSearchInput.value = meta.location;
+                document.getElementById('mapSearchText').innerText = meta.location;
+            } else {
+                mapSearchInput.value = "";
+                document.getElementById('mapSearchText').innerText = "Search any place or forest coord (e.g. Amazon, Borneo, Congo...)";
+            }
+
+            // Restore text widgets
+            sidebarTitle.innerText = meta.location;
+            sidebarCoords.innerText = `${meta.lat.toFixed(4)}° N, ${meta.lon.toFixed(4)}° E`;
+
+            panelForestCover.innerText = `${data.forest_percent}%`;
+            panelDeforestationRate.innerText = `${data.deforestation_percent}%`;
+            panelNdvi.innerText = data.ndvi.toFixed(2);
+
+            panelAlertTitle.innerText = data.alert.status;
+            panelAlertTitle.style.color = data.alert.badge_color;
+            panelAlertText.innerText = data.alert.message;
+            panelAlertBox.style.background = data.alert.severity === 'CRITICAL' ? 'rgba(239, 68, 68, 0.08)' :
+                data.alert.severity === 'HIGH' ? 'rgba(245, 158, 11, 0.08)' :
+                    'rgba(16, 185, 129, 0.08)';
+            panelAlertBox.style.borderColor = data.alert.badge_color;
+            panelAlertIcon.style.color = data.alert.badge_color;
+            panelAlertIcon.setAttribute('data-lucide', data.alert.severity === 'CRITICAL' ? 'shield-alert' :
+                data.alert.severity === 'HIGH' ? 'alert-triangle' : 'shield-check');
+            lucide.createIcons();
+
+            // Initialize map and markers
+            initializeLeafletMap();
+            renderVisualOverlays(mapCenter, data);
+            map.setView(mapCenter, 9);
+        } else {
+            // Hide map wrapper, show offline placeholder
+            document.getElementById('mapWrapper').style.display = 'none';
+            document.getElementById('mapOfflineContainer').style.display = 'flex';
+        }
+    } catch (err) {
+        console.error("State restoration error:", err);
+        document.getElementById('mapWrapper').style.display = 'none';
+        document.getElementById('mapOfflineContainer').style.display = 'flex';
+    }
+</script>
+{% endblock %}

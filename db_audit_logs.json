@@ -1,0 +1,1042 @@
+[
+  {
+    "id": 1779547950160,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Mahalakshmi Layout\", forest: 11.1, deforestation: 88.91, ndvi: 0.23, period_loss_rate: 0.1}",
+    "alert": {
+      "status": "\u2713 NOMINAL: Stable canopy",
+      "severity": "LOW",
+      "badge_color": "var(--accent-primary)",
+      "message": "Forest cover and vegetation index remain within safe, stable ecological thresholds.",
+      "mitigation_steps": [
+        "Maintain standard periodic orbit pass tracking schedule",
+        "Archive database analysis to standard logs registry"
+      ]
+    },
+    "period_loss_rate": 0.1,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 20:33:00"
+  },
+  {
+    "id": 1779527687339,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Hassan\", forest: 44.2, deforestation: 55.77, ndvi: 0.47, period_loss_rate: 1.71}",
+    "alert": {
+      "status": "\u2713 NOMINAL: Stable canopy",
+      "severity": "LOW",
+      "badge_color": "var(--accent-primary)",
+      "message": "Forest cover and vegetation index remain within safe, stable ecological thresholds.",
+      "mitigation_steps": [
+        "Maintain standard periodic orbit pass tracking schedule",
+        "Archive database analysis to standard logs registry"
+      ]
+    },
+    "period_loss_rate": 1.71,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 14:45:47"
+  },
+  {
+    "id": 1779525678810,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Malleswaram\", forest: 10.1, deforestation: 89.86, ndvi: 0.22, period_loss_rate: 2.51}",
+    "alert": {
+      "status": "\u26a0\ufe0f WARNING: Tree cover is decreasing",
+      "severity": "HIGH",
+      "badge_color": "var(--warning)",
+      "message": "We should monitor this area closely to prevent further loss.",
+      "mitigation_steps": [
+        "Flag coordinates for subsequent Sentinel acquisition orbits",
+        "Conduct ground audit verification on biosphere borders",
+        "Review commercial land development logging permits"
+      ]
+    },
+    "period_loss_rate": 2.51,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 14:11:19"
+  },
+  {
+    "id": 1779525078856,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Hegganahalli\", forest: 12.0, deforestation: 87.99, ndvi: 0.24, period_loss_rate: 0.11}",
+    "alert": {
+      "status": "\u2713 NOMINAL: Stable canopy",
+      "severity": "LOW",
+      "badge_color": "var(--accent-primary)",
+      "message": "Forest cover and vegetation index remain within safe, stable ecological thresholds.",
+      "mitigation_steps": [
+        "Maintain standard periodic orbit pass tracking schedule",
+        "Archive database analysis to standard logs registry"
+      ]
+    },
+    "period_loss_rate": 0.11,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 14:01:18"
+  },
+  {
+    "id": 1779525078685,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Hegganahalli\", forest: 12.0, deforestation: 87.99, ndvi: 0.24, period_loss_rate: 0.11}",
+    "alert": {
+      "status": "\u2713 NOMINAL: Stable canopy",
+      "severity": "LOW",
+      "badge_color": "var(--accent-primary)",
+      "message": "Forest cover and vegetation index remain within safe, stable ecological thresholds.",
+      "mitigation_steps": [
+        "Maintain standard periodic orbit pass tracking schedule",
+        "Archive database analysis to standard logs registry"
+      ]
+    },
+    "period_loss_rate": 0.11,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 14:01:18"
+  },
+  {
+    "id": 1779524815080,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Herohalli\", forest: 8.9, deforestation: 91.07, ndvi: 0.21, period_loss_rate: 3.07}",
+    "alert": {
+      "status": "\u26a0\ufe0f WARNING: Tree cover is decreasing",
+      "severity": "HIGH",
+      "badge_color": "var(--warning)",
+      "message": "We should monitor this area closely to prevent further loss.",
+      "mitigation_steps": [
+        "Flag coordinates for subsequent Sentinel acquisition orbits",
+        "Conduct ground audit verification on biosphere borders",
+        "Review commercial land development logging permits"
+      ]
+    },
+    "period_loss_rate": 3.07,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 13:56:55"
+  },
+  {
+    "id": 1779524121855,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Herohalli\", forest: 8.9, deforestation: 91.07, ndvi: 0.21, period_loss_rate: 3.07}",
+    "alert": {
+      "status": "\u26a0\ufe0f WARNING: Tree cover is decreasing",
+      "severity": "HIGH",
+      "badge_color": "var(--warning)",
+      "message": "We should monitor this area closely to prevent further loss.",
+      "mitigation_steps": [
+        "Flag coordinates for subsequent Sentinel acquisition orbits",
+        "Conduct ground audit verification on biosphere borders",
+        "Review commercial land development logging permits"
+      ]
+    },
+    "period_loss_rate": 3.07,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 13:45:21"
+  },
+  {
+    "id": 1779524098497,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Herohalli\", forest: 8.9, deforestation: 91.07, ndvi: 0.21, period_loss_rate: 3.07}",
+    "alert": {
+      "status": "\u26a0\ufe0f WARNING: Tree cover is decreasing",
+      "severity": "HIGH",
+      "badge_color": "var(--warning)",
+      "message": "We should monitor this area closely to prevent further loss.",
+      "mitigation_steps": [
+        "Flag coordinates for subsequent Sentinel acquisition orbits",
+        "Conduct ground audit verification on biosphere borders",
+        "Review commercial land development logging permits"
+      ]
+    },
+    "period_loss_rate": 3.07,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 13:44:58"
+  },
+  {
+    "id": 1779523748837,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Mysuru\", forest: 43.9, deforestation: 56.06, ndvi: 0.47, period_loss_rate: 2.34}",
+    "alert": {
+      "status": "\u26a0\ufe0f WARNING: Tree cover is decreasing",
+      "severity": "HIGH",
+      "badge_color": "var(--warning)",
+      "message": "We should monitor this area closely to prevent further loss.",
+      "mitigation_steps": [
+        "Flag coordinates for subsequent Sentinel acquisition orbits",
+        "Conduct ground audit verification on biosphere borders",
+        "Review commercial land development logging permits"
+      ]
+    },
+    "period_loss_rate": 2.34,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 13:39:08"
+  },
+  {
+    "id": 1779523636933,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Mysuru\", forest: 43.9, deforestation: 56.06, ndvi: 0.47, period_loss_rate: 2.34}",
+    "alert": {
+      "status": "\u26a0\ufe0f WARNING: Tree cover is decreasing",
+      "severity": "HIGH",
+      "badge_color": "var(--warning)",
+      "message": "We should monitor this area closely to prevent further loss.",
+      "mitigation_steps": [
+        "Flag coordinates for subsequent Sentinel acquisition orbits",
+        "Conduct ground audit verification on biosphere borders",
+        "Review commercial land development logging permits"
+      ]
+    },
+    "period_loss_rate": 2.34,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 13:37:16"
+  },
+  {
+    "id": 1779523607564,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Mysuru\", forest: 43.9, deforestation: 56.06, ndvi: 0.47, period_loss_rate: 2.34}",
+    "alert": {
+      "status": "\u26a0\ufe0f WARNING: Tree cover is decreasing",
+      "severity": "HIGH",
+      "badge_color": "var(--warning)",
+      "message": "We should monitor this area closely to prevent further loss.",
+      "mitigation_steps": [
+        "Flag coordinates for subsequent Sentinel acquisition orbits",
+        "Conduct ground audit verification on biosphere borders",
+        "Review commercial land development logging permits"
+      ]
+    },
+    "period_loss_rate": 2.34,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 13:36:47"
+  },
+  {
+    "id": 1779523574653,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Mysuru\", forest: 43.9, deforestation: 56.06, ndvi: 0.47, period_loss_rate: 2.34}",
+    "alert": {
+      "status": "\u26a0\ufe0f WARNING: Tree cover is decreasing",
+      "severity": "HIGH",
+      "badge_color": "var(--warning)",
+      "message": "We should monitor this area closely to prevent further loss.",
+      "mitigation_steps": [
+        "Flag coordinates for subsequent Sentinel acquisition orbits",
+        "Conduct ground audit verification on biosphere borders",
+        "Review commercial land development logging permits"
+      ]
+    },
+    "period_loss_rate": 2.34,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 13:36:14"
+  },
+  {
+    "id": 1779523573871,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Mysuru\", forest: 43.9, deforestation: 56.06, ndvi: 0.47, period_loss_rate: 2.34}",
+    "alert": {
+      "status": "\u26a0\ufe0f WARNING: Tree cover is decreasing",
+      "severity": "HIGH",
+      "badge_color": "var(--warning)",
+      "message": "We should monitor this area closely to prevent further loss.",
+      "mitigation_steps": [
+        "Flag coordinates for subsequent Sentinel acquisition orbits",
+        "Conduct ground audit verification on biosphere borders",
+        "Review commercial land development logging permits"
+      ]
+    },
+    "period_loss_rate": 2.34,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 13:36:13"
+  },
+  {
+    "id": 1779523127216,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Herohalli\", forest: 9.2, deforestation: 90.83, ndvi: 0.22, period_loss_rate: 3.89}",
+    "alert": {
+      "status": "\u26a0\ufe0f WARNING: Tree cover is decreasing",
+      "severity": "HIGH",
+      "badge_color": "var(--warning)",
+      "message": "We should monitor this area closely to prevent further loss.",
+      "mitigation_steps": [
+        "Flag coordinates for subsequent Sentinel acquisition orbits",
+        "Conduct ground audit verification on biosphere borders",
+        "Review commercial land development logging permits"
+      ]
+    },
+    "period_loss_rate": 3.89,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 13:28:47"
+  },
+  {
+    "id": 1779522701986,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Herohalli\", forest: 9.3, deforestation: 90.69, ndvi: 0.22, period_loss_rate: 32.07}",
+    "alert": {
+      "status": "\u26a0\ufe0f ALERT: High tree loss detected!",
+      "severity": "CRITICAL",
+      "badge_color": "var(--danger)",
+      "message": "This area has lost a lot of trees recently. We need to take action to protect the remaining forest.",
+      "mitigation_steps": [
+        "Deploy emergency satellite ground patrol telemetry",
+        "Execute local government logging moratorium protocol",
+        "Initiate urgent multi-spectral NDVI re-scanning pass"
+      ]
+    },
+    "period_loss_rate": 32.07,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 13:21:41"
+  },
+  {
+    "id": 1779522681112,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Herohalli\", forest: 9.2, deforestation: 90.83, ndvi: 0.22, period_loss_rate: 3.89}",
+    "alert": {
+      "status": "\u26a0\ufe0f WARNING: Tree cover is decreasing",
+      "severity": "HIGH",
+      "badge_color": "var(--warning)",
+      "message": "We should monitor this area closely to prevent further loss.",
+      "mitigation_steps": [
+        "Flag coordinates for subsequent Sentinel acquisition orbits",
+        "Conduct ground audit verification on biosphere borders",
+        "Review commercial land development logging permits"
+      ]
+    },
+    "period_loss_rate": 3.89,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 13:21:21"
+  },
+  {
+    "id": 1779522680969,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Herohalli\", forest: 9.2, deforestation: 90.83, ndvi: 0.22, period_loss_rate: 3.89}",
+    "alert": {
+      "status": "\u26a0\ufe0f WARNING: Tree cover is decreasing",
+      "severity": "HIGH",
+      "badge_color": "var(--warning)",
+      "message": "We should monitor this area closely to prevent further loss.",
+      "mitigation_steps": [
+        "Flag coordinates for subsequent Sentinel acquisition orbits",
+        "Conduct ground audit verification on biosphere borders",
+        "Review commercial land development logging permits"
+      ]
+    },
+    "period_loss_rate": 3.89,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 13:21:20"
+  },
+  {
+    "id": 1779522212156,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Mysuru\", forest: 41.0, deforestation: 58.98, ndvi: 0.45, period_loss_rate: 4.84}",
+    "alert": {
+      "status": "\u26a0\ufe0f WARNING: Tree cover is decreasing",
+      "severity": "HIGH",
+      "badge_color": "var(--warning)",
+      "message": "We should monitor this area closely to prevent further loss.",
+      "mitigation_steps": [
+        "Flag coordinates for subsequent Sentinel acquisition orbits",
+        "Conduct ground audit verification on biosphere borders",
+        "Review commercial land development logging permits"
+      ]
+    },
+    "period_loss_rate": 4.84,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 13:13:32"
+  },
+  {
+    "id": 1779521746041,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Mysuru\", forest: 57.7, deforestation: 42.34, ndvi: 0.57, period_loss_rate: 3.63}",
+    "alert": {
+      "status": "\u26a0\ufe0f WARNING: Tree cover is decreasing",
+      "severity": "HIGH",
+      "badge_color": "var(--warning)",
+      "message": "We should monitor this area closely to prevent further loss.",
+      "mitigation_steps": [
+        "Flag coordinates for subsequent Sentinel acquisition orbits",
+        "Conduct ground audit verification on biosphere borders",
+        "Review commercial land development logging permits"
+      ]
+    },
+    "period_loss_rate": 3.63,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 13:05:46"
+  },
+  {
+    "id": 1779521706316,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Mysuru\", forest: 57.7, deforestation: 42.34, ndvi: 0.57, period_loss_rate: 3.63}",
+    "alert": {
+      "status": "\u26a0\ufe0f WARNING: Tree cover is decreasing",
+      "severity": "HIGH",
+      "badge_color": "var(--warning)",
+      "message": "We should monitor this area closely to prevent further loss.",
+      "mitigation_steps": [
+        "Flag coordinates for subsequent Sentinel acquisition orbits",
+        "Conduct ground audit verification on biosphere borders",
+        "Review commercial land development logging permits"
+      ]
+    },
+    "period_loss_rate": 3.63,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 13:05:06"
+  },
+  {
+    "id": 1779521705564,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Mysuru\", forest: 57.7, deforestation: 42.34, ndvi: 0.57, period_loss_rate: 3.63}",
+    "alert": {
+      "status": "\u26a0\ufe0f WARNING: Tree cover is decreasing",
+      "severity": "HIGH",
+      "badge_color": "var(--warning)",
+      "message": "We should monitor this area closely to prevent further loss.",
+      "mitigation_steps": [
+        "Flag coordinates for subsequent Sentinel acquisition orbits",
+        "Conduct ground audit verification on biosphere borders",
+        "Review commercial land development logging permits"
+      ]
+    },
+    "period_loss_rate": 3.63,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 13:05:05"
+  },
+  {
+    "id": 1779521528771,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Andrahalli\", forest: 10.9, deforestation: 89.14, ndvi: 0.23, period_loss_rate: 6.02}",
+    "alert": {
+      "status": "\u26a0\ufe0f ALERT: High tree loss detected!",
+      "severity": "CRITICAL",
+      "badge_color": "var(--danger)",
+      "message": "This area has lost a lot of trees recently. We need to take action to protect the remaining forest.",
+      "mitigation_steps": [
+        "Deploy emergency satellite ground patrol telemetry",
+        "Execute local government logging moratorium protocol",
+        "Initiate urgent multi-spectral NDVI re-scanning pass"
+      ]
+    },
+    "period_loss_rate": 6.02,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 13:02:08"
+  },
+  {
+    "id": 1779521528001,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Andrahalli\", forest: 10.9, deforestation: 89.14, ndvi: 0.23, period_loss_rate: 6.02}",
+    "alert": {
+      "status": "\u26a0\ufe0f ALERT: High tree loss detected!",
+      "severity": "CRITICAL",
+      "badge_color": "var(--danger)",
+      "message": "This area has lost a lot of trees recently. We need to take action to protect the remaining forest.",
+      "mitigation_steps": [
+        "Deploy emergency satellite ground patrol telemetry",
+        "Execute local government logging moratorium protocol",
+        "Initiate urgent multi-spectral NDVI re-scanning pass"
+      ]
+    },
+    "period_loss_rate": 6.02,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 13:02:08"
+  },
+  {
+    "id": 1779521336334,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Bengaluru\", forest: 11.8, deforestation: 88.22, ndvi: 0.23, period_loss_rate: 5.42}",
+    "alert": {
+      "status": "\u26a0\ufe0f ALERT: High tree loss detected!",
+      "severity": "CRITICAL",
+      "badge_color": "var(--danger)",
+      "message": "This area has lost a lot of trees recently. We need to take action to protect the remaining forest.",
+      "mitigation_steps": [
+        "Deploy emergency satellite ground patrol telemetry",
+        "Execute local government logging moratorium protocol",
+        "Initiate urgent multi-spectral NDVI re-scanning pass"
+      ]
+    },
+    "period_loss_rate": 5.42,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 12:58:56"
+  },
+  {
+    "id": 1779521335316,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Bengaluru\", forest: 11.8, deforestation: 88.22, ndvi: 0.23, period_loss_rate: 5.42}",
+    "alert": {
+      "status": "\u26a0\ufe0f ALERT: High tree loss detected!",
+      "severity": "CRITICAL",
+      "badge_color": "var(--danger)",
+      "message": "This area has lost a lot of trees recently. We need to take action to protect the remaining forest.",
+      "mitigation_steps": [
+        "Deploy emergency satellite ground patrol telemetry",
+        "Execute local government logging moratorium protocol",
+        "Initiate urgent multi-spectral NDVI re-scanning pass"
+      ]
+    },
+    "period_loss_rate": 5.42,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 12:58:55"
+  },
+  {
+    "id": 1779521157021,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Herohalli\", forest: 9.2, deforestation: 90.79, ndvi: 0.22, period_loss_rate: 9.15}",
+    "alert": {
+      "status": "\u26a0\ufe0f ALERT: High tree loss detected!",
+      "severity": "CRITICAL",
+      "badge_color": "var(--danger)",
+      "message": "This area has lost a lot of trees recently. We need to take action to protect the remaining forest.",
+      "mitigation_steps": [
+        "Deploy emergency satellite ground patrol telemetry",
+        "Execute local government logging moratorium protocol",
+        "Initiate urgent multi-spectral NDVI re-scanning pass"
+      ]
+    },
+    "period_loss_rate": 9.15,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 12:55:57"
+  },
+  {
+    "id": 1779521156833,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Herohalli\", forest: 9.2, deforestation: 90.79, ndvi: 0.22, period_loss_rate: 9.15}",
+    "alert": {
+      "status": "\u26a0\ufe0f ALERT: High tree loss detected!",
+      "severity": "CRITICAL",
+      "badge_color": "var(--danger)",
+      "message": "This area has lost a lot of trees recently. We need to take action to protect the remaining forest.",
+      "mitigation_steps": [
+        "Deploy emergency satellite ground patrol telemetry",
+        "Execute local government logging moratorium protocol",
+        "Initiate urgent multi-spectral NDVI re-scanning pass"
+      ]
+    },
+    "period_loss_rate": 9.15,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 12:55:56"
+  },
+  {
+    "id": 1779520771463,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Herohalli\", forest: 9.2, deforestation: 90.79, ndvi: 0.22, period_loss_rate: 3.5}",
+    "alert": {
+      "status": "\u26a0\ufe0f WARNING: Tree cover is decreasing",
+      "severity": "HIGH",
+      "badge_color": "var(--warning)",
+      "message": "We should monitor this area closely to prevent further loss.",
+      "mitigation_steps": [
+        "Flag coordinates for subsequent Sentinel acquisition orbits",
+        "Conduct ground audit verification on biosphere borders",
+        "Review commercial land development logging permits"
+      ]
+    },
+    "period_loss_rate": 3.5,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 12:49:31"
+  },
+  {
+    "id": 1779520771274,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Herohalli\", forest: 9.2, deforestation: 90.79, ndvi: 0.22, period_loss_rate: 3.5}",
+    "alert": {
+      "status": "\u26a0\ufe0f WARNING: Tree cover is decreasing",
+      "severity": "HIGH",
+      "badge_color": "var(--warning)",
+      "message": "We should monitor this area closely to prevent further loss.",
+      "mitigation_steps": [
+        "Flag coordinates for subsequent Sentinel acquisition orbits",
+        "Conduct ground audit verification on biosphere borders",
+        "Review commercial land development logging permits"
+      ]
+    },
+    "period_loss_rate": 3.5,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 12:49:31"
+  },
+  {
+    "id": 1779520600654,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Malleswaram\", forest: 10.4, deforestation: 89.6, ndvi: 0.22, period_loss_rate: 7.54}",
+    "alert": {
+      "status": "\u26a0\ufe0f ALERT: High tree loss detected!",
+      "severity": "CRITICAL",
+      "badge_color": "var(--danger)",
+      "message": "This area has lost a lot of trees recently. We need to take action to protect the remaining forest.",
+      "mitigation_steps": [
+        "Deploy emergency satellite ground patrol telemetry",
+        "Execute local government logging moratorium protocol",
+        "Initiate urgent multi-spectral NDVI re-scanning pass"
+      ]
+    },
+    "period_loss_rate": 7.54,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 12:46:40"
+  },
+  {
+    "id": 1779520521536,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Malleswaram\", forest: 10.4, deforestation: 89.6, ndvi: 0.22, period_loss_rate: 7.54}",
+    "alert": {
+      "status": "\u26a0\ufe0f ALERT: High tree loss detected!",
+      "severity": "CRITICAL",
+      "badge_color": "var(--danger)",
+      "message": "This area has lost a lot of trees recently. We need to take action to protect the remaining forest.",
+      "mitigation_steps": [
+        "Deploy emergency satellite ground patrol telemetry",
+        "Execute local government logging moratorium protocol",
+        "Initiate urgent multi-spectral NDVI re-scanning pass"
+      ]
+    },
+    "period_loss_rate": 7.54,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 12:45:21"
+  },
+  {
+    "id": 1779520520922,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Malleswaram\", forest: 10.4, deforestation: 89.6, ndvi: 0.22, period_loss_rate: 7.54}",
+    "alert": {
+      "status": "\u26a0\ufe0f ALERT: High tree loss detected!",
+      "severity": "CRITICAL",
+      "badge_color": "var(--danger)",
+      "message": "This area has lost a lot of trees recently. We need to take action to protect the remaining forest.",
+      "mitigation_steps": [
+        "Deploy emergency satellite ground patrol telemetry",
+        "Execute local government logging moratorium protocol",
+        "Initiate urgent multi-spectral NDVI re-scanning pass"
+      ]
+    },
+    "period_loss_rate": 7.54,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 12:45:20"
+  },
+  {
+    "id": 1779520492788,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Magadi\", forest: 46.0, deforestation: 54.05, ndvi: 0.48, period_loss_rate: 0.1}",
+    "alert": {
+      "status": "\u2713 NOMINAL: Stable canopy",
+      "severity": "LOW",
+      "badge_color": "var(--accent-primary)",
+      "message": "Forest cover and vegetation index remain within safe, stable ecological thresholds.",
+      "mitigation_steps": [
+        "Maintain standard periodic orbit pass tracking schedule",
+        "Archive database analysis to standard logs registry"
+      ]
+    },
+    "period_loss_rate": 0.1,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 12:44:52"
+  },
+  {
+    "id": 1779520491762,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Magadi\", forest: 46.0, deforestation: 54.05, ndvi: 0.48, period_loss_rate: 0.1}",
+    "alert": {
+      "status": "\u2713 NOMINAL: Stable canopy",
+      "severity": "LOW",
+      "badge_color": "var(--accent-primary)",
+      "message": "Forest cover and vegetation index remain within safe, stable ecological thresholds.",
+      "mitigation_steps": [
+        "Maintain standard periodic orbit pass tracking schedule",
+        "Archive database analysis to standard logs registry"
+      ]
+    },
+    "period_loss_rate": 0.1,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 12:44:51"
+  },
+  {
+    "id": 1779520272585,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Magadi\", forest: 44.5, deforestation: 55.52, ndvi: 0.47, period_loss_rate: 3.02}",
+    "alert": {
+      "status": "\u26a0\ufe0f WARNING: Tree cover is decreasing",
+      "severity": "HIGH",
+      "badge_color": "var(--warning)",
+      "message": "We should monitor this area closely to prevent further loss.",
+      "mitigation_steps": [
+        "Flag coordinates for subsequent Sentinel acquisition orbits",
+        "Conduct ground audit verification on biosphere borders",
+        "Review commercial land development logging permits"
+      ]
+    },
+    "period_loss_rate": 3.02,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 12:41:12"
+  },
+  {
+    "id": 1779520271535,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Magadi\", forest: 44.5, deforestation: 55.52, ndvi: 0.47, period_loss_rate: 3.02}",
+    "alert": {
+      "status": "\u26a0\ufe0f WARNING: Tree cover is decreasing",
+      "severity": "HIGH",
+      "badge_color": "var(--warning)",
+      "message": "We should monitor this area closely to prevent further loss.",
+      "mitigation_steps": [
+        "Flag coordinates for subsequent Sentinel acquisition orbits",
+        "Conduct ground audit verification on biosphere borders",
+        "Review commercial land development logging permits"
+      ]
+    },
+    "period_loss_rate": 3.02,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 12:41:11"
+  },
+  {
+    "id": 1779520095972,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Madanayakanalli\", forest: 9.8, deforestation: 90.24, ndvi: 0.22, period_loss_rate: 7.83}",
+    "alert": {
+      "status": "\u26a0\ufe0f ALERT: High tree loss detected!",
+      "severity": "CRITICAL",
+      "badge_color": "var(--danger)",
+      "message": "This area has lost a lot of trees recently. We need to take action to protect the remaining forest.",
+      "mitigation_steps": [
+        "Deploy emergency satellite ground patrol telemetry",
+        "Execute local government logging moratorium protocol",
+        "Initiate urgent multi-spectral NDVI re-scanning pass"
+      ]
+    },
+    "period_loss_rate": 7.83,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 12:38:15"
+  },
+  {
+    "id": 1779520095122,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Madanayakanalli\", forest: 9.8, deforestation: 90.24, ndvi: 0.22, period_loss_rate: 7.83}",
+    "alert": {
+      "status": "\u26a0\ufe0f ALERT: High tree loss detected!",
+      "severity": "CRITICAL",
+      "badge_color": "var(--danger)",
+      "message": "This area has lost a lot of trees recently. We need to take action to protect the remaining forest.",
+      "mitigation_steps": [
+        "Deploy emergency satellite ground patrol telemetry",
+        "Execute local government logging moratorium protocol",
+        "Initiate urgent multi-spectral NDVI re-scanning pass"
+      ]
+    },
+    "period_loss_rate": 7.83,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 12:38:15"
+  },
+  {
+    "id": 1779512263358,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Kadabageri\", forest: 16.5, deforestation: 83.46, ndvi: 0.27, period_loss_rate: 14.11}",
+    "alert": {
+      "status": "\u26a0\ufe0f ALERT: High tree loss detected!",
+      "severity": "CRITICAL",
+      "badge_color": "var(--danger)",
+      "message": "This area has lost a lot of trees recently. We need to take action to protect the remaining forest.",
+      "mitigation_steps": [
+        "Deploy emergency satellite ground patrol telemetry",
+        "Execute local government logging moratorium protocol",
+        "Initiate urgent multi-spectral NDVI re-scanning pass"
+      ]
+    },
+    "period_loss_rate": 14.11,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 10:27:43"
+  },
+  {
+    "id": 1779512262594,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Kadabageri\", forest: 16.5, deforestation: 83.46, ndvi: 0.27, period_loss_rate: 14.11}",
+    "alert": {
+      "status": "\u26a0\ufe0f ALERT: High tree loss detected!",
+      "severity": "CRITICAL",
+      "badge_color": "var(--danger)",
+      "message": "This area has lost a lot of trees recently. We need to take action to protect the remaining forest.",
+      "mitigation_steps": [
+        "Deploy emergency satellite ground patrol telemetry",
+        "Execute local government logging moratorium protocol",
+        "Initiate urgent multi-spectral NDVI re-scanning pass"
+      ]
+    },
+    "period_loss_rate": 14.11,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 10:27:42"
+  },
+  {
+    "id": 1779511889825,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Machohalli\", forest: 10.0, deforestation: 90.04, ndvi: 0.22, period_loss_rate: 9.07}",
+    "alert": {
+      "status": "\u26a0\ufe0f ALERT: High tree loss detected!",
+      "severity": "CRITICAL",
+      "badge_color": "var(--danger)",
+      "message": "This area has lost a lot of trees recently. We need to take action to protect the remaining forest.",
+      "mitigation_steps": [
+        "Deploy emergency satellite ground patrol telemetry",
+        "Execute local government logging moratorium protocol",
+        "Initiate urgent multi-spectral NDVI re-scanning pass"
+      ]
+    },
+    "period_loss_rate": 9.07,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 10:21:29"
+  },
+  {
+    "id": 1779511888996,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Machohalli\", forest: 10.0, deforestation: 90.04, ndvi: 0.22, period_loss_rate: 9.07}",
+    "alert": {
+      "status": "\u26a0\ufe0f ALERT: High tree loss detected!",
+      "severity": "CRITICAL",
+      "badge_color": "var(--danger)",
+      "message": "This area has lost a lot of trees recently. We need to take action to protect the remaining forest.",
+      "mitigation_steps": [
+        "Deploy emergency satellite ground patrol telemetry",
+        "Execute local government logging moratorium protocol",
+        "Initiate urgent multi-spectral NDVI re-scanning pass"
+      ]
+    },
+    "period_loss_rate": 9.07,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 10:21:28"
+  },
+  {
+    "id": 1779511468099,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Bylakonenahalli\", forest: 19.4, deforestation: 80.55, ndvi: 0.29, period_loss_rate: 0.1}",
+    "alert": {
+      "status": "\u2713 NOMINAL: Stable canopy",
+      "severity": "LOW",
+      "badge_color": "var(--accent-primary)",
+      "message": "Forest cover and vegetation index remain within safe, stable ecological thresholds.",
+      "mitigation_steps": [
+        "Maintain standard periodic orbit pass tracking schedule",
+        "Archive database analysis to standard logs registry"
+      ]
+    },
+    "period_loss_rate": 0.1,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 10:14:28"
+  },
+  {
+    "id": 1779511467794,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Bylakonenahalli\", forest: 19.4, deforestation: 80.55, ndvi: 0.29, period_loss_rate: 0.1}",
+    "alert": {
+      "status": "\u2713 NOMINAL: Stable canopy",
+      "severity": "LOW",
+      "badge_color": "var(--accent-primary)",
+      "message": "Forest cover and vegetation index remain within safe, stable ecological thresholds.",
+      "mitigation_steps": [
+        "Maintain standard periodic orbit pass tracking schedule",
+        "Archive database analysis to standard logs registry"
+      ]
+    },
+    "period_loss_rate": 0.1,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 10:14:27"
+  },
+  {
+    "id": 1779510556197,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Bylakonenehalli\", forest: 12.8, deforestation: 87.16, ndvi: 0.24, period_loss_rate: 26.58}",
+    "alert": {
+      "status": "\u26a0\ufe0f ALERT: High tree loss detected!",
+      "severity": "CRITICAL",
+      "badge_color": "var(--danger)",
+      "message": "This area has lost a lot of trees recently. We need to take action to protect the remaining forest.",
+      "mitigation_steps": [
+        "Deploy emergency satellite ground patrol telemetry",
+        "Execute local government logging moratorium protocol",
+        "Initiate urgent multi-spectral NDVI re-scanning pass"
+      ]
+    },
+    "period_loss_rate": 26.58,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 09:59:16"
+  },
+  {
+    "id": 1779510457206,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Bylakonenehalli\", forest: 16.7, deforestation: 83.3, ndvi: 0.27, period_loss_rate: 1.17}",
+    "alert": {
+      "status": "\u2713 NOMINAL: Stable canopy",
+      "severity": "LOW",
+      "badge_color": "var(--accent-primary)",
+      "message": "Forest cover and vegetation index remain within safe, stable ecological thresholds.",
+      "mitigation_steps": [
+        "Maintain standard periodic orbit pass tracking schedule",
+        "Archive database analysis to standard logs registry"
+      ]
+    },
+    "period_loss_rate": 1.17,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 09:57:37"
+  },
+  {
+    "id": 1779510386864,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Bylakonenehalli\", forest: 12.8, deforestation: 87.16, ndvi: 0.24, period_loss_rate: 26.58}",
+    "alert": {
+      "status": "\u26a0\ufe0f ALERT: High tree loss detected!",
+      "severity": "CRITICAL",
+      "badge_color": "var(--danger)",
+      "message": "This area has lost a lot of trees recently. We need to take action to protect the remaining forest.",
+      "mitigation_steps": [
+        "Deploy emergency satellite ground patrol telemetry",
+        "Execute local government logging moratorium protocol",
+        "Initiate urgent multi-spectral NDVI re-scanning pass"
+      ]
+    },
+    "period_loss_rate": 26.58,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 09:56:26"
+  },
+  {
+    "id": 1779509984565,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Bylakonenehalli\", forest: 13.9, deforestation: 86.11, ndvi: 0.25, period_loss_rate: 12.14}",
+    "alert": {
+      "status": "\u26a0\ufe0f ALERT: High tree loss detected!",
+      "severity": "CRITICAL",
+      "badge_color": "var(--danger)",
+      "message": "This area has lost a lot of trees recently. We need to take action to protect the remaining forest.",
+      "mitigation_steps": [
+        "Deploy emergency satellite ground patrol telemetry",
+        "Execute local government logging moratorium protocol",
+        "Initiate urgent multi-spectral NDVI re-scanning pass"
+      ]
+    },
+    "period_loss_rate": 12.14,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 09:49:44"
+  },
+  {
+    "id": 1779509983749,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Bylakonenehalli\", forest: 13.9, deforestation: 86.11, ndvi: 0.25, period_loss_rate: 12.14}",
+    "alert": {
+      "status": "\u26a0\ufe0f ALERT: High tree loss detected!",
+      "severity": "CRITICAL",
+      "badge_color": "var(--danger)",
+      "message": "This area has lost a lot of trees recently. We need to take action to protect the remaining forest.",
+      "mitigation_steps": [
+        "Deploy emergency satellite ground patrol telemetry",
+        "Execute local government logging moratorium protocol",
+        "Initiate urgent multi-spectral NDVI re-scanning pass"
+      ]
+    },
+    "period_loss_rate": 12.14,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 09:49:43"
+  },
+  {
+    "id": 1779509756534,
+    "type": "insert",
+    "query": "save_analysis",
+    "payload": "{location: \"Tavrekere\", forest: 17.0, deforestation: 82.99, ndvi: 0.27, period_loss_rate: 0.1}",
+    "alert": {
+      "status": "\u2713 NOMINAL: Stable canopy",
+      "severity": "LOW",
+      "badge_color": "var(--accent-primary)",
+      "message": "Forest cover and vegetation index remain within safe, stable ecological thresholds.",
+      "mitigation_steps": [
+        "Maintain standard periodic orbit pass tracking schedule",
+        "Archive database analysis to standard logs registry"
+      ]
+    },
+    "period_loss_rate": 0.1,
+    "status": "Success",
+    "time": "Just now",
+    "timestamp": "2026-05-23 09:45:56"
+  }
+]

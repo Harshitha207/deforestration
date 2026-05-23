@@ -1,0 +1,648 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="flex-col gap-6" style="animation: fadeIn 0.6s ease-out;">
+    <div class="flex justify-between items-center">
+        <div>
+            <h1>Environmental Report Generator</h1>
+            <p>Compile premium theoretical impact assessments and spatiotemporal telemetry records into exportable scientific reports.</p>
+        </div>
+    </div>
+
+    <!-- Main Grid Layout: Expanded full-width centered A4 format -->
+    <div id="reportsGridContainer" style="display: grid; grid-template-columns: 1fr; max-width: 900px; margin: 0 auto; gap: 24px; align-items: start; width: 100%;">
+        
+        <!-- Left Side: Hidden Report Parameter Inputs (Preserved in DOM for script background operations) -->
+        <div class="flex-col gap-6" style="display: none !important;">
+            <div class="glass-panel flex-col gap-4">
+                <div style="display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+                    <i data-lucide="sliders" class="text-accent" style="width: 20px; height: 20px;"></i>
+                    <h3 style="font-size: 1.1rem;">Report Configuration</h3>
+                </div>
+
+                <form id="reportForm" class="flex-col gap-4">
+                    <div class="flex-col gap-2">
+                        <label for="reportLocation" style="font-size: 0.78rem; font-weight: 600; color: var(--text-secondary);">Select Target Biome</label>
+                        <select id="reportLocation" style="width: 100%; padding: 10px 14px; border-radius: 8px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); color: var(--text-primary); font-size: 0.88rem; outline: none;">
+                            <option value="Bengaluru, Karnataka, India">Bengaluru Metropolis (Garden City)</option>
+                            <option value="Mysuru, Karnataka, India">Mysuru Deciduous Corridors</option>
+                            <option value="Amazon Basin">Amazon Basin Rainforest</option>
+                            <option value="Congo Basin">Congo Basin Humid Forests</option>
+                            <option value="Southeast Asia">Borneo Tropical Canopy</option>
+                            <option value="Deciduous Forests (Central India)">Central India Woodlands</option>
+                            <option value="Custom Pin Point">Last Custom Map Pin</option>
+                        </select>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div class="flex-col gap-2">
+                            <label for="reportStartYear" style="font-size: 0.78rem; font-weight: 600; color: var(--text-secondary);">Start Year</label>
+                            <select id="reportStartYear" style="width: 100%; padding: 10px; border-radius: 8px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); color: var(--text-primary); font-size: 0.88rem; outline: none;">
+                                <option value="2000">2000</option>
+                                <option value="2005">2005</option>
+                                <option value="2010">2010</option>
+                                <option value="2015">2015</option>
+                                <option value="2020" selected>2020</option>
+                            </select>
+                        </div>
+                        <div class="flex-col gap-2">
+                            <label for="reportEndYear" style="font-size: 0.78rem; font-weight: 600; color: var(--text-secondary);">End Year</label>
+                            <select id="reportEndYear" style="width: 100%; padding: 10px; border-radius: 8px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); color: var(--text-primary); font-size: 0.88rem; outline: none;">
+                                <option value="2005">2005</option>
+                                <option value="2010">2010</option>
+                                <option value="2015">2015</option>
+                                <option value="2020">2020</option>
+                                <option value="2025" selected>2025</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="generateReportBtn" class="btn btn-primary w-full" style="padding: 12px; margin-top: 8px;">
+                        <i data-lucide="file-text" style="width: 16px; height: 16px;"></i> Compile Impact Report
+                    </button>
+                </form>
+            </div>
+
+            <!-- DB Status Card -->
+            <div class="glass-panel flex-col gap-4">
+                <div style="display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+                    <i data-lucide="server" class="text-accent" style="width: 18px; height: 18px;"></i>
+                    <h3 style="font-size: 0.95rem;">Database Sync State</h3>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.8rem;">
+                    <div class="flex justify-between">
+                        <span style="color: var(--text-secondary);">Engine Node</span>
+                        <code style="color: var(--text-primary);">MongoDB (JSON Fallback)</code>
+                    </div>
+                    <div class="flex justify-between">
+                        <span style="color: var(--text-secondary);">Registry Stream</span>
+                        <span class="text-accent" style="font-weight: 600; display: flex; align-items: center; gap: 4px;">
+                            <span class="legend-dot" style="background: var(--success); width: 6px; height: 6px;"></span> SYNCHRONIZED
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Scientific Document Report View -->
+        <div class="flex-col gap-6">
+            <!-- Report Document Wrapper -->
+            <div class="glass-panel" style="position: relative; overflow: hidden; min-height: 520px; display: flex; flex-direction: column;">
+                
+                <!-- Print/Download Bar (Shows only when report is generated) -->
+                <div id="reportActionBar" style="display: none; justify-content: flex-end; gap: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 14px; margin-bottom: 20px;">
+                    <button id="printReportBtn" class="btn btn-secondary" style="font-size: 0.8rem; padding: 6px 12px;">
+                        <i data-lucide="printer" style="width: 14px; height: 14px;"></i> Print / Save PDF
+                    </button>
+                </div>
+
+                <!-- Report Content Display -->
+                <div id="reportDocWrapper" style="flex: 1; display: flex; flex-direction: column;">
+                    
+                    <!-- Welcome Display -->
+                    <div id="reportWelcome" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 60px 20px; color: var(--text-secondary);">
+                        <div style="width: 64px; height: 64px; border-radius: 50%; background: rgba(59, 130, 246, 0.08); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                            <i data-lucide="book-open" class="text-accent" style="width: 32px; height: 32px;"></i>
+                        </div>
+                        <h3 style="color: var(--text-primary); font-size: 1.15rem; margin-bottom: 6px;">Ready for Impact Compilation</h3>
+                        <p style="font-size: 0.85rem; max-width: 340px; line-height: 1.5;">Choose a target environmental biome and select your timeline scope on the left to generate an academic-grade impact report.</p>
+                    </div>
+
+                    <!-- Loader Display -->
+                    <div id="reportLoader" style="display: none; flex: 1; flex-direction: column; align-items: center; justify-content: center; padding: 80px 20px; color: var(--text-secondary);">
+                        <i data-lucide="loader-2" class="animate-spin text-accent" style="width: 36px; height: 36px; margin-bottom: 16px;"></i>
+                        <h4 style="color: var(--text-primary); font-size: 1rem; margin-bottom: 4px;">Processing Satellite Telemetry...</h4>
+                        <p style="font-size: 0.8rem;">Synthesizing vegetation index bands and threat telemetry profiles...</p>
+                    </div>
+
+                    <!-- Actual Report Document (Serif Style for Academic Feel!) -->
+                    <div id="reportDocument" style="display: none; font-family: 'Inter', system-ui, sans-serif; color: #f3f4f6; line-height: 1.6; font-size: 0.92rem; padding: 10px;">
+                        
+                        <!-- Document Header -->
+                        <div style="border-bottom: 3px double var(--border-color); padding-bottom: 16px; margin-bottom: 24px; text-align: center;">
+                            <span style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-primary);">TERRAGUARD GLOBAL ENVIRONMENTAL INSTITUTE</span>
+                            <h2 style="font-size: 1.6rem; font-weight: 700; color: #ffffff; margin: 6px 0 10px 0; font-family: 'Outfit', sans-serif;">BIOSPHERIC SPATIOTEMPORAL IMPACT ASSESSMENT</h2>
+                            <div style="display: flex; justify-content: center; gap: 16px; font-size: 0.78rem; color: var(--text-secondary); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px; margin-top: 8px;">
+                                <span>Report ID: <strong id="docReportId">TG-2026-XXXX</strong></span>
+                                <span>●</span>
+                                <span>Issued: <strong id="docTimestamp">2026-05-19</strong></span>
+                                <span>●</span>
+                                <span>Scope: <strong id="docScope">2020 - 2025</strong></span>
+                            </div>
+                        </div>
+
+                        <!-- Technical Meta Section -->
+                        <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; margin-bottom: 24px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px;">
+                            <div>
+                                <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary);">Survey Target Zone</span>
+                                <h3 id="docTargetName" style="font-size: 1.15rem; color: var(--accent-primary); margin: 2px 0 6px 0;">Bengaluru Metropolis</h3>
+                                <div style="font-size: 0.8rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 4px;">
+                                    <span>Geocoded Center: <strong id="docTargetCoords" style="color: var(--text-primary);">12.9716° N, 77.5946° E</strong></span>
+                                    <span>Monitoring Satellite Network: <strong style="color: var(--text-primary);">Sentinel-2 & Landsat 8-9</strong></span>
+                                </div>
+                            </div>
+                            <div style="border-left: 1px solid rgba(255,255,255,0.08); padding-left: 20px; display: flex; flex-direction: column; justify-content: center; gap: 6px;">
+                                <div class="flex justify-between" style="font-size: 0.85rem;">
+                                    <span>Forest Preserved:</span>
+                                    <strong id="docForestCover" class="text-accent">85.4%</strong>
+                                </div>
+                                <div class="flex justify-between" style="font-size: 0.85rem;">
+                                    <span>Active Canopy Loss:</span>
+                                    <strong id="docLossRate" style="color: var(--danger);">14.6%</strong>
+                                </div>
+                                <div class="flex justify-between" style="font-size: 0.85rem;">
+                                    <span>Mean Canopy NDVI:</span>
+                                    <strong id="docNdvi" style="color: var(--warning);">0.68</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Theoretical Report Sections (Hidden per user request, showing telemetry metrics exclusively) -->
+                        <div class="flex-col gap-6" style="text-align: justify; line-height: 1.7; font-size: 0.88rem; display: none !important;">
+                            <!-- 1. Executive Summary -->
+                            <div>
+                                <h4 style="font-family: 'Outfit', sans-serif; font-size: 0.95rem; text-transform: uppercase; color: #ffffff; border-left: 3px solid var(--accent-primary); padding-left: 8px; margin-bottom: 8px;">1. Executive Summary & Ecological Profile</h4>
+                                <p id="docTextSummary">Loading section details...</p>
+                            </div>
+
+                            <!-- 2. Spatiotemporal Vegetation Assessment -->
+                            <div>
+                                <h4 style="font-family: 'Outfit', sans-serif; font-size: 0.95rem; text-transform: uppercase; color: #ffffff; border-left: 3px solid var(--accent-primary); padding-left: 8px; margin-bottom: 8px;">2. Spatiotemporal Vegetation & NDVI Analysis</h4>
+                                <p id="docTextNdvi">Loading section details...</p>
+                            </div>
+
+                            <!-- 3. Degradation Impact Analysis -->
+                            <div>
+                                <h4 style="font-family: 'Outfit', sans-serif; font-size: 0.95rem; text-transform: uppercase; color: #ffffff; border-left: 3px solid var(--accent-primary); padding-left: 8px; margin-bottom: 8px;">3. Environmental Degradation & Biophysical Implications</h4>
+                                <p id="docTextDegradation">Loading section details...</p>
+                            </div>
+
+                            <!-- 4. Mitigation Recommendations -->
+                            <div>
+                                <h4 style="font-family: 'Outfit', sans-serif; font-size: 0.95rem; text-transform: uppercase; color: #ffffff; border-left: 3px solid var(--accent-primary); padding-left: 8px; margin-bottom: 8px;">4. Recommended Scientific Mitigation & Conservation Directives</h4>
+                                <ol id="docTextDirectives" style="padding-left: 20px; display: flex; flex-direction: column; gap: 8px;">
+                                    <li>Loading directive protocols...</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <!-- Report Footer / Signatures -->
+                        <div style="margin-top: 36px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 20px; display: flex; justify-content: space-between; align-items: flex-end; font-size: 0.76rem; color: var(--text-secondary);">
+                            <div>
+                                <span>Certified Diagnostic Engine: <strong style="color: var(--text-primary);">TerraGuard Core v8.0</strong></span><br/>
+                                <span>Spatial Classification Standards: <strong style="color: var(--text-primary);">IPCC Wetlands & Forestry Guidelines</strong></span>
+                            </div>
+                            <div style="text-align: right; width: 180px;">
+                                <div style="height: 35px; border-bottom: 1px solid rgba(255,255,255,0.15); margin-bottom: 4px; font-family: 'Dancing Script', cursive; font-size: 1.1rem; color: var(--accent-primary); padding-right: 12px; letter-spacing: 1px;">
+                                    TerraGuard Core
+                                </div>
+                                <span>Lead Biophysics Analyst</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+    </div>
+
+    <!-- Reports Offline Placeholder -->
+    <div id="reportsOfflineContainer" style="display: none; padding: 24px; flex-direction: column; gap: 24px; min-height: calc(100vh - 120px); width: 100%; align-items: center; justify-content: center;">
+        <div class="glass-panel" style="padding: 48px 40px; max-width: 560px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 20px; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 16px;">
+            <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(16,185,129,0.1); display: flex; align-items: center; justify-content: center;">
+                <i data-lucide="book-open" class="text-accent" style="width: 36px; height: 36px;"></i>
+            </div>
+            <h2 style="font-size: 1.4rem; font-weight: 700; color: var(--text-primary);">Environmental Report Offline</h2>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; max-width: 420px;">
+                The academic-grade biospheric impact assessment will be generated once you enter a target location and start analysis on the <strong>Dashboard</strong>.
+            </p>
+            <div style="display: flex; gap: 12px; margin-top: 8px;">
+                <a href="http://localhost:5173" class="btn btn-primary" style="padding: 10px 24px; font-size: 0.88rem; display: flex; align-items: center; gap: 8px; text-decoration: none;">
+                    Go to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Section: Database Logs Registry (Audit Trail - Hidden for elegant scientific document presentation) -->
+    <div class="glass-panel flex-col gap-4" style="margin-top: 12px; display: none !important;">
+        <div style="display: flex; justify-content: space-between; items-center; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <i data-lucide="terminal" style="width: 20px; height: 20px; color: var(--accent-secondary);"></i>
+                <h3 style="font-size: 1.1rem;">Transaction Audit Logs</h3>
+            </div>
+            <button id="clearBtn" class="btn btn-secondary" style="font-size: 0.76rem; color: var(--danger); border-color: rgba(239, 68, 68, 0.2); padding: 4px 10px;">
+                <i data-lucide="trash-2" style="width: 13px; height: 13px;"></i> Clear Audit Trail
+            </button>
+        </div>
+
+        <div id="logsContainer" style="display: flex; flex-direction: column; gap: 12px; max-height: 250px; overflow-y: auto; padding-right: 4px;">
+            <!-- Logs will be loaded here dynamically -->
+            <div id="logsLoader" style="text-align: center; padding: 20px 0; color: var(--text-secondary);">
+                <i data-lucide="refresh-cw" class="animate-spin text-accent" style="width: 20px; height: 20px; margin-bottom: 8px;"></i>
+                <p style="font-size: 0.8rem;">Loading database records...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Print Stylesheet -->
+<style>
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
+    #reportDocument, #reportDocument * {
+        visibility: visible;
+    }
+    #reportDocument {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        color: #000000 !important;
+        background: #ffffff !important;
+        padding: 0 !important;
+        font-size: 11pt !important;
+        line-height: 1.5 !important;
+    }
+    #reportDocument h2, #reportDocument h3, #reportDocument h4, #reportDocument strong {
+        color: #000000 !important;
+    }
+    #reportDocument div {
+        background: none !important;
+        border-color: #333333 !important;
+    }
+}
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const reportForm = document.getElementById('reportForm');
+    const reportLocation = document.getElementById('reportLocation');
+    const reportStartYear = document.getElementById('reportStartYear');
+    const reportEndYear = document.getElementById('reportEndYear');
+    const generateReportBtn = document.getElementById('generateReportBtn');
+    
+    const reportWelcome = document.getElementById('reportWelcome');
+    const reportLoader = document.getElementById('reportLoader');
+    const reportDocument = document.getElementById('reportDocument');
+    const reportActionBar = document.getElementById('reportActionBar');
+    
+    // Document targets
+    const docReportId = document.getElementById('docReportId');
+    const docTimestamp = document.getElementById('docTimestamp');
+    const docScope = document.getElementById('docScope');
+    const docTargetName = document.getElementById('docTargetName');
+    const docTargetCoords = document.getElementById('docTargetCoords');
+    const docForestCover = document.getElementById('docForestCover');
+    const docLossRate = document.getElementById('docLossRate');
+    const docNdvi = document.getElementById('docNdvi');
+    
+    const docTextSummary = document.getElementById('docTextSummary');
+    const docTextNdvi = document.getElementById('docTextNdvi');
+    const docTextDegradation = document.getElementById('docTextDegradation');
+    const docTextDirectives = document.getElementById('docTextDirectives');
+    
+    const printReportBtn = document.getElementById('printReportBtn');
+    
+    // Fallback coordinates mappings
+    const coordMappings = {
+        "Bengaluru, Karnataka, India": [12.9716, 77.5946],
+        "Mysuru, Karnataka, India": [12.2958, 76.6394],
+        "Amazon Basin": [-3.4653, -62.2159],
+        "Congo Basin": [-0.2280, 22.2750],
+        "Southeast Asia": [0.9619, 114.5548],
+        "Deciduous Forests (Central India)": [22.9734, 78.6569],
+        "Custom Pin Point": [12.9716, 77.5946] // Bangalore coords as safe baseline fallback
+    };
+
+    // Smart deterministic offset seed generator
+    function absSinHash(lat, lon) {
+        const val = Math.sin(lat * 12.9898 + lon * 78.233) * 43758.5453;
+        return Math.abs(val - Math.floor(val));
+    }
+
+    // Try to load last selected coordinate center from localStorage if available
+    try {
+        const cachedLat = localStorage.getItem('tg_map_lat');
+        const cachedLon = localStorage.getItem('tg_map_lon');
+        const cachedName = localStorage.getItem('tg_map_name');
+        if (cachedLat && cachedLon) {
+            coordMappings["Custom Pin Point"] = [parseFloat(cachedLat), parseFloat(cachedLon)];
+            if (cachedName) {
+                const opt = reportLocation.querySelector('option[value="Custom Pin Point"]');
+                if (opt) opt.innerText = `Custom Pin Point (${cachedName})`;
+            }
+        }
+    } catch(e) {}
+
+    // Synchronize start/end years selections
+    reportStartYear.addEventListener('change', () => {
+        if (parseInt(reportStartYear.value) >= parseInt(reportEndYear.value)) {
+            reportEndYear.value = parseInt(reportStartYear.value) + 5;
+        }
+    });
+    
+    reportEndYear.addEventListener('change', () => {
+        if (parseInt(reportEndYear.value) <= parseInt(reportStartYear.value)) {
+            reportStartYear.value = parseInt(reportEndYear.value) - 5;
+        }
+    });
+
+    // Handle Report Compilation
+    reportForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        reportWelcome.style.display = "none";
+        reportDocument.style.display = "none";
+        reportActionBar.style.display = "none";
+        reportLoader.style.display = "flex";
+        generateReportBtn.disabled = true;
+        
+        const locationName = reportLocation.value;
+        const startY = parseInt(reportStartYear.value);
+        const endY = parseInt(reportEndYear.value);
+        const coords = coordMappings[locationName] || [12.9716, 77.5946];
+        
+        try {
+            // Trigger Flask engine dynamic satellite calculation
+            const response = await fetch('/analyze', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    location: locationName,
+                    start_year: startY,
+                    end_year: endY,
+                    lat: coords[0],
+                    lon: coords[1]
+                })
+            });
+            
+            const data = await response.json();
+            if (data.error) throw new Error(data.error);
+            
+            // Generate Theoretical Scientific Assessments based on the telemetry returned!
+            generateReportTheoreticalTexts(locationName, startY, endY, coords, data);
+            
+            // Update db audit logs registry below automatically
+            fetchLogs();
+            
+        } catch (error) {
+            console.error(error);
+            alert("Diagnostic compilation failed. Connecting server fallback...");
+            reportWelcome.style.display = "flex";
+            reportLoader.style.display = "none";
+        } finally {
+            generateReportBtn.disabled = false;
+        }
+    });
+
+    function generateReportTheoreticalTexts(locName, startY, endY, coords, data) {
+        // Set metadata elements
+        docReportId.innerText = `TG-${startY}${endY}-${Math.floor(1000 + Math.random() * 9000)}`;
+        docTimestamp.innerText = new Date().toISOString().split('T')[0] + ' ' + new Date().toTimeString().split(' ')[0];
+        docScope.innerText = `${startY} - ${endY}`;
+        docTargetName.innerText = locName === "Custom Pin Point" ? "Custom Pin Coordinate Biome" : locName;
+        docTargetCoords.innerText = `${coords[0].toFixed(4)}° N, ${coords[1].toFixed(4)}° E`;
+        docForestCover.innerText = `${data.forest_percent}%`;
+        docLossRate.innerText = `${data.deforestation_percent}%`;
+        docNdvi.innerText = data.ndvi.toFixed(2);
+        
+        // 1. Compile Executive Summary text
+        let summaryText = "";
+        if (locName.includes("Bengaluru")) {
+            summaryText = `The Bengaluru metropolis biosphere, located on the Deccan Plateau, is historically characterized by its urban tree cover and sprawling reservoir network. Over the monitoring timeline of ${startY} to ${endY}, our spatiotemporal sensors indicate intense anthropogenic pressures. The preserved canopy cover remains at ${data.forest_percent}%. High rate of land-use transformation from dense vegetation to paved concrete infrastructure has fragmented primary local corridors, causing pronounced local heat-island anomalies.`;
+        } else if (locName.includes("Mysuru")) {
+            summaryText = `The Mysuru region deciduous biosphere represents a vital ecological corridor linking the Eastern and Western Ghats. In the observation period between ${startY} and ${endY}, the area exhibits a canopy preserve rate of ${data.forest_percent}%. Environmental diagnostics show minor commercial incursions and farm boundaries shifting the baseline canopy density. Conservation indices suggest that native biomes remain moderately resilient but are subject to seasonal dry spells and perimeter degradation.`;
+        } else if (locName === "Amazon Basin") {
+            summaryText = `The Amazon Basin rainforest represents the world's most critical carbon sink and a core pillar of the global climate engine. Throughout the observation range of ${startY} to ${endY}, spatiotemporal logging highlights intense agricultural expansion. Preserved primary forest stands at ${data.forest_percent}%, showing critical biospheric margins. The localized threat indices reveal active canopy clear-cuts along access routes, disrupting deep humidity feedback loops and imperiling endemic ecosystems.`;
+        } else if (locName === "Congo Basin") {
+            summaryText = `The Congo Basin primary humid forest complex acts as a primary biospheric stabilization lung. Over the monitored interval (${startY}–${endY}), satellite logging reveals that the forest preserve level is maintained at ${data.forest_percent}%. While remote deep forests remain relatively undisturbed, expanding smallholder agriculture and logging infrastructure at boundary edges present active long-term fragmentation threats.`;
+        } else if (locName === "Southeast Asia") {
+            summaryText = `The Borneo tropical canopy, situated across Southeast Asia, constitutes an irreplaceable biodiversity reservoir. For the monitoring duration from ${startY} to ${endY}, our sensors identify that remaining tree canopy stands at ${data.forest_percent}%. Large-scale plantation monoculture conversions represent the principal deforestation vector. Active canopy loss has breached critical local buffer zones, increasing micro-climatic stress.`;
+        } else {
+            const cleanLoc = locName === "Custom Pin Point" ? `the observed geocoded biome` : `the "${locName}" biome`;
+            summaryText = `The environmental impact assessment conducted for ${cleanLoc} (centered at coordinates ${coords[0].toFixed(4)}° N, ${coords[1].toFixed(4)}° E) reveals critical biophysical developments over the ${startY}–${endY} timeline. According to high-resolution Sentinel satellite bands, the preserved forest canopy of ${locName === "Custom Pin Point" ? "this corridor" : locName} stands at ${data.forest_percent}%. High temporal observations indicate localized changes in vegetation density. The micro-climatic characteristics of this specific region are closely coupled with the surrounding vegetation cover, suggesting that further canopy loss in ${locName === "Custom Pin Point" ? "this biome" : locName} could alter local humidity profiles and increase ground heat levels.`;
+        }
+        docTextSummary.innerText = summaryText;
+
+        // 2. Compile NDVI Analysis
+        const ndviVal = data.ndvi;
+        let ndviDescription = "";
+        let ndviStatusText = "";
+        if (ndviVal >= 0.7) {
+            ndviStatusText = "Stable Dense Vegetation Canopy";
+            ndviDescription = `Our satellite sensors registered a mean Normalized Difference Vegetation Index (NDVI) of ${ndviVal.toFixed(2)} across the ${locName === "Custom Pin Point" ? "surveyed area" : locName + " biome"}. An index of this magnitude reflects a high-density, mature forest canopy with stable chlorophyll absorption and vigorous photosynthetic activity. The vegetation exhibits excellent leaf-area index metrics and high environmental resilience, typical of protected reserves.`;
+        } else if (ndviVal >= 0.5) {
+            ndviStatusText = "Fragmented and Seasonal Canopy";
+            ndviDescription = `Our satellite sensors registered a mean Normalized Difference Vegetation Index (NDVI) of ${ndviVal.toFixed(2)} in the ${locName === "Custom Pin Point" ? "surveyed corridor" : locName + " region"}. This moderate range is characteristic of fragmented secondary woodlands or seasonally stressed agricultural biomes. Chlorophyll metrics suggest active vegetative cycles but indicate visible canopy gaps, representing minor canopy degradation.`;
+        } else {
+            ndviStatusText = "Severely Degraded or Non-Vegetated Surface";
+            ndviDescription = `Our satellite sensors registered an extremely low mean Normalized Difference Vegetation Index (NDVI) of ${ndviVal.toFixed(2)} for ${locName === "Custom Pin Point" ? "this geocoded coordinates" : "the " + locName + " zone"}. This critical profile is indicative of severely depleted vegetative surface features. A reading of this level denotes barren soil, dense concrete cover, or clear-cut biomes. Photosynthetic activity is critically suppressed, posing immediate threat.`;
+        }
+        docTextNdvi.innerHTML = `Biophysical diagnostics indicate a classification of <strong>"${ndviStatusText}"</strong>. ${ndviDescription}`;
+
+        // 3. Compile Degradation Impact Analysis
+        const lossVal = data.deforestation_percent;
+        let degradationText = "";
+        if (lossVal >= 30) {
+            degradationText = `With an active canopy loss rate of ${lossVal}% calculated for ${locName === "Custom Pin Point" ? "this target zone" : locName}, this ecosystem has breached extreme biospheric thresholds. Spatiotemporal logging indicates extensive clear-cutting and soil exposure. The removal of this canopy volume disrupts local water tables, diminishes humidity feedback loops, and triggers immediate carbon release. Without aggressive intervention, localized micro-climatic temperature increases and irreversible soil erosion will permanently alter this biome's carrying capacity.`;
+        } else if (lossVal >= 15) {
+            degradationText = `An active canopy loss rate of ${lossVal}% places the ${locName === "Custom Pin Point" ? "target surveyed corridors" : locName + " region"} under high alert. Fragmented forest patches create edge-effects, increasing vulnerability to dry winds, invasive species, and wildfire vectors. Hydrological metrics suggest moderate stress in groundwater replenishment cycles. Restoration steps must be immediately implemented.`;
+        } else {
+            degradationText = `The regional canopy loss calculated for ${locName === "Custom Pin Point" ? "this target zone" : locName} is ${lossVal}%, representing a relatively stable conservation status. The local ecosystem retains its core micro-climatic buffers and hydrological retention capabilities. Ongoing monitoring must continue to ensure boundary corridors remain protected.`;
+        }
+        docTextDegradation.innerText = degradationText;
+
+        // 4. Compile Mitigation Recommendations
+        let directivesHtml = "";
+        if (lossVal >= 30) {
+            directivesHtml = `
+                <li><strong>Establish Immediate Exclusion Zones:</strong> Suspend all spatial land-use permits within the ${coords[0].toFixed(2)}° N buffer corridor.</li>
+                <li><strong>Re-establish Ecological Corridors:</strong> Reforest empty raster patches to reconnect fragmented micro-biomes.</li>
+                <li><strong>Dynamic Sentinel Monitoring:</strong> Run bi-weekly high-resolution NDVI assessments to track further perimeter incursions.</li>
+                <li><strong>Soil Conservation Interventions:</strong> Introduce fast-growing native grasses to stabilize exposed topsoil in heavily degraded patches.</li>
+            `;
+        } else if (lossVal >= 15) {
+            directivesHtml = `
+                <li><strong>Enforce Buffer Boundaries:</strong> Implement strict surveillance around the preserved ${data.forest_percent}% core canopy lines.</li>
+                <li><strong>Targeted Agroforestry:</strong> Integrate native timber species with local crop lines to increase vegetative thickness.</li>
+                <li><strong>Establish Canopy Firebreaks:</strong> Create natural clearing boundaries to prevent rapid dry-wood fire propagation.</li>
+            `;
+        } else {
+            directivesHtml = `
+                <li><strong>Ongoing Preservation Zoning:</strong> Maintain high-grade national preserve categorization for the entire observed ${data.forest_percent}% canopy.</li>
+                <li><strong>Citizen Monitoring Nodes:</strong> Deploy low-cost telemetry sensors with local communities to track boundary developments.</li>
+            `;
+        }
+        docTextDirectives.innerHTML = directivesHtml;
+
+        // Switch container displays
+        reportLoader.style.display = "none";
+        reportDocument.style.display = "block";
+        reportActionBar.style.display = "flex";
+    }
+
+    // Print Action
+    printReportBtn.addEventListener('click', () => {
+        window.print();
+    });
+
+    // ==========================================
+    // Database Logs Audit Registry Functions
+    // ==========================================
+    const logsContainer = document.getElementById('logsContainer');
+    const clearBtn = document.getElementById('clearBtn');
+
+    async function fetchLogs() {
+        try {
+            const response = await fetch('/api/logs');
+            const logs = await response.json();
+            
+            if (logs.length === 0) {
+                logsContainer.innerHTML = `
+                    <div style="text-align: center; padding: 30px 0; color: var(--text-muted);">
+                        <i data-lucide="database-backup" style="width: 32px; height: 32px; margin-bottom: 8px; display: inline-block;"></i>
+                        <p style="font-size: 0.85rem;">No active audit transaction records stored.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            let logsHtml = '';
+            logs.forEach(log => {
+                logsHtml += `
+                    <div style="padding: 10px 14px; border-radius: 8px; background: rgba(255,255,255,0.01); border: 1px solid var(--border-light); border-left: 4px solid var(--accent-primary); display: flex; justify-content: space-between; align-items: center;">
+                        <div style="flex: 1; padding-right: 12px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="font-size: 0.68rem; text-transform: uppercase; font-weight: 700; color: var(--accent-primary);">${log.type}</span>
+                                <span style="font-size: 0.68rem; color: var(--text-secondary);">${log.timestamp || log.time}</span>
+                            </div>
+                            <code style="font-size: 0.74rem; display: block; color: var(--text-primary); margin-top: 4px; line-height: 1.4; word-break: break-all;">
+                                ${log.query}(${log.payload})
+                            </code>
+                        </div>
+                        <div style="font-size: 0.68rem; font-weight: 700; color: var(--success); background: rgba(16,185,129,0.08); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(16,185,129,0.15);">
+                            ${log.status}
+                        </div>
+                    </div>
+                `;
+            });
+
+            logsContainer.innerHTML = logsHtml;
+            lucide.createIcons();
+
+        } catch (error) {
+            console.error("Error logging records:", error);
+            logsContainer.innerHTML = `
+                <div style="text-align: center; padding: 30px 0; color: var(--danger);">
+                    <i data-lucide="shield-alert" style="width: 28px; height: 28px; margin-bottom: 6px;"></i>
+                    <p style="font-size: 0.8rem;">Failed to fetch system audit logs registry.</p>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+    }
+
+    clearBtn.addEventListener('click', async () => {
+        if (!confirm("Are you sure you want to purge all spatiotemporal database logs?")) return;
+        
+        try {
+            clearBtn.disabled = true;
+            const response = await fetch('/api/logs/clear', {
+                method: 'POST'
+            });
+            const data = await response.json();
+            if (data.status === 'Success') {
+                fetchLogs();
+            } else {
+                alert(`Clear log execution error: ${data.error}`);
+            }
+        } catch (err) {
+            alert("Database connection timed out.");
+        } finally {
+            clearBtn.disabled = false;
+        }
+    });
+
+    // Initial load
+    fetchLogs();
+
+    // Check if there is cached analysis data from the Map module to automatically display!
+    try {
+        let cachedMeta = localStorage.getItem('tg_last_analysis_meta');
+        let cachedData = localStorage.getItem('tg_last_analysis_data');
+        const reactDetails = localStorage.getItem('deforestation_search_details');
+        
+        // Sync React UI details if present and Flask is empty
+        if (!cachedMeta && reactDetails) {
+            const parsed = JSON.parse(reactDetails);
+            if (parsed && (parsed.hasData || parsed.analysisData)) {
+                const meta = {
+                    location: parsed.activeRegionName || "Amazon Basin",
+                    start_year: parsed.yearStart || 2000,
+                    end_year: parsed.yearEnd || 2024,
+                    lat: parsed.selectedPin ? parsed.selectedPin.lat : -3.4653,
+                    lon: parsed.selectedPin ? parsed.selectedPin.lng : -62.2159
+                };
+                localStorage.setItem('tg_last_analysis_meta', JSON.stringify(meta));
+                if (parsed.analysisData) {
+                    localStorage.setItem('tg_last_analysis_data', JSON.stringify(parsed.analysisData));
+                }
+                cachedMeta = JSON.stringify(meta);
+                cachedData = parsed.analysisData ? JSON.stringify(parsed.analysisData) : null;
+            }
+        }
+
+        if (cachedMeta && cachedData) {
+            document.getElementById('reportsGridContainer').style.display = 'grid';
+            document.getElementById('reportsOfflineContainer').style.display = 'none';
+
+            const meta = JSON.parse(cachedMeta);
+            const data = JSON.parse(cachedData);
+            
+            // Set form values to match what was selected on the map
+            reportStartYear.value = meta.start_year;
+            reportEndYear.value = meta.end_year;
+            
+            // If it matches one of our default options, select it, otherwise fallback to Custom Pin Point
+            let matched = false;
+            for (let i = 0; i < reportLocation.options.length; i++) {
+                if (reportLocation.options[i].value === meta.location) {
+                    reportLocation.value = meta.location;
+                    matched = true;
+                    break;
+                }
+            }
+            if (!matched) {
+                reportLocation.value = "Custom Pin Point";
+                const customOpt = reportLocation.querySelector('option[value="Custom Pin Point"]');
+                if (customOpt) customOpt.innerText = `Custom Pin Point (${meta.location})`;
+            }
+            
+            // Set the custom coordinates fallback
+            coordMappings[reportLocation.value] = [meta.lat, meta.lon];
+            
+            // Automatically compile and display the report instantly!
+            reportWelcome.style.display = "none";
+            generateReportTheoreticalTexts(meta.location, meta.start_year, meta.end_year, [meta.lat, meta.lon], data);
+        } else {
+            document.getElementById('reportsGridContainer').style.display = 'none';
+            document.getElementById('reportsOfflineContainer').style.display = 'flex';
+        }
+    } catch(err) {
+        console.error("Auto-report loading failed:", err);
+        document.getElementById('reportsGridContainer').style.display = 'none';
+        document.getElementById('reportsOfflineContainer').style.display = 'flex';
+    }
+</script>
+{% endblock %}
