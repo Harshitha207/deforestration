@@ -22,7 +22,7 @@ def save_analysis(data):
     }
 
     # PERSIST TO LOCAL JSON FALLBACK DATABASE FILE (Ensures instant out-of-the-box operation)
-    db_path = 'db_audit_logs.json'
+    db_path = '/tmp/db_audit_logs.json'
     logs = []
     if os.path.exists(db_path):
         try:
