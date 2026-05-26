@@ -171,7 +171,7 @@ def analyze():
 @app.route('/api/logs', methods=['GET'])
 def get_logs():
     try:
-        db_path = '/tmp/db_audit_logs.json'
+        db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'db_audit_logs.json')
         if os.path.exists(db_path):
             with open(db_path, 'r') as f:
                 logs = json.load(f)
@@ -186,7 +186,7 @@ def get_logs():
 @app.route('/api/logs/clear', methods=['POST'])
 def clear_logs():
     try:
-        db_path = '/tmp/db_audit_logs.json'
+        db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'db_audit_logs.json')
         with open(db_path, 'w') as f:
             json.dump([], f)
         return jsonify({"status": "Success"})
@@ -199,7 +199,7 @@ def clear_logs():
 @app.route('/api/logs/<int:log_id>', methods=['DELETE'])
 def delete_log(log_id):
     try:
-        db_path = '/tmp/db_audit_logs.json'
+        db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'db_audit_logs.json')
         if os.path.exists(db_path):
             with open(db_path, 'r') as f:
                 logs = json.load(f)

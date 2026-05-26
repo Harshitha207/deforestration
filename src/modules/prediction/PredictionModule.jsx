@@ -189,7 +189,7 @@ const PredictionModule = () => {
       lon = foundMatch.center[1];
     } else {
       try {
-        const res = await fetch(`http://localhost:5000/api/geocode?q=${encodeURIComponent(searchName)}`);
+        const res = await fetch(`/api/geocode?q=${encodeURIComponent(searchName)}`);
         const data = await res.json();
         if (data && data.length > 0) {
           lat = parseFloat(data[0].lat);
@@ -218,7 +218,7 @@ const PredictionModule = () => {
     setActiveYearEnd(yearEnd);
 
     try {
-      const response = await fetch('http://localhost:5000/analyze', {
+      const response = await fetch('/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ location: searchName, start_year: yearStart, end_year: yearEnd, lat, lon })

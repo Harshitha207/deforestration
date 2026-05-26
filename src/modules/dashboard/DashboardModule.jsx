@@ -79,7 +79,7 @@ const DashboardModule = () => {
     
     if (!isLocalMatch) {
       try {
-        const res = await fetch(`http://localhost:5000/api/geocode?q=${encodeURIComponent(query)}`);
+        const res = await fetch(`/api/geocode?q=${encodeURIComponent(query)}`);
         const data = await res.json();
         if (!data || data.length === 0) {
           triggerAlert("Please enter a proper location.");
