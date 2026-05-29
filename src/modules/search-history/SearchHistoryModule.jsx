@@ -12,14 +12,38 @@ const SearchHistoryModule = () => {
   const [logs, setLogs] = useState(defaultLogs);
   const [loading, setLoading] = useState(true);
 
-  // Helper to parse the payload string inside historical logs into a clean object
-  const parsePayload = (payloadStr) => {
-    if (!payloadStr) return { location: 'Unknown', forest: 0, deforestation: 0, ndvi: 0 };
+  // Helper to parse the payload inside historical logs into a clean object
+  const parsePayload = (payload) => {
+    if (!payload) return { location: 'Unknown Region', forest: 0, deforestation: 0, ndvi: 0 };
+    
+    if (typeof payload === 'object') {
+      return {
+        location: payload.location || 'Unknown Region',
+        forest: typeof payload.forest === 'number' ? payload.forest : parseFloat(payload.forest || 0),
+        deforestation: typeof payload.deforestation === 'number' ? payload.deforestation : parseFloat(payload.deforestation || 0),
+        ndvi: typeof payload.ndvi === 'number' ? payload.ndvi : parseFloat(payload.ndvi || 0)
+      };
+    }
+
     try {
-      const locMatch = payloadStr.match(/location:\s*"([^"]+)"/) || payloadStr.match(/location:\s*'([^']+)'/) || payloadStr.match(/"location":\s*"([^"]+)"/);
-      const forestMatch = payloadStr.match(/forest:\s*([\d.]+)/) || payloadStr.match(/"forest":\s*([\d.]+)/);
-      const defMatch = payloadStr.match(/deforestation:\s*([\d.]+)/) || payloadStr.match(/"deforestation":\s*([\d.]+)/);
-      const ndviMatch = payloadStr.match(/ndvi:\s*([\d.]+)/) || payloadStr.match(/"ndvi":\s*([\d.]+)/);
+      try {
+        const parsedObj = JSON.parse(payload);
+        if (parsedObj && typeof parsedObj === 'object') {
+          return {
+            location: parsedObj.location || 'Unknown Region',
+            forest: typeof parsedObj.forest === 'number' ? parsedObj.forest : parseFloat(parsedObj.forest || 0),
+            deforestation: typeof parsedObj.deforestation === 'number' ? parsedObj.deforestation : parseFloat(parsedObj.deforestation || 0),
+            ndvi: typeof parsedObj.ndvi === 'number' ? parsedObj.ndvi : parseFloat(parsedObj.ndvi || 0)
+          };
+        }
+      } catch (jsonErr) {
+        // Fall back to regex parsing
+      }
+
+      const locMatch = payload.match(/location:\s*"([^"]+)"/) || payload.match(/location:\s*'([^']+)'/) || payload.match(/"location":\s*"([^"]+)"/);
+      const forestMatch = payload.match(/forest:\s*([\d.]+)/) || payload.match(/"forest":\s*([\d.]+)/);
+      const defMatch = payload.match(/deforestation:\s*([\d.]+)/) || payload.match(/"deforestation":\s*([\d.]+)/);
+      const ndviMatch = payload.match(/ndvi:\s*([\d.]+)/) || payload.match(/"ndvi":\s*([\d.]+)/);
       
       return {
         location: locMatch ? locMatch[1] : 'Unknown Region',

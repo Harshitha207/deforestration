@@ -2,6 +2,26 @@ import os
 import json
 from datetime import datetime
 
+def get_db_path(for_writing=False):
+    """
+    Returns the path to the JSON database file.
+    In development (local write-access), it resolves to db_audit_logs.json in the project root.
+    In read-only environments (like Vercel production), it falls back to /tmp/db_audit_logs.json.
+    """
+    local_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'db_audit_logs.json')
+    if for_writing:
+        dir_path = os.path.dirname(local_path)
+        if os.access(dir_path, os.W_OK):
+            return local_path
+        return '/tmp/db_audit_logs.json'
+    else:
+        if os.path.exists(local_path):
+            return local_path
+        cwd_path = os.path.abspath('db_audit_logs.json')
+        if os.path.exists(cwd_path):
+            return cwd_path
+        return '/tmp/db_audit_logs.json'
+
 def save_analysis(data):
     """
     Saves deforestation transaction query analysis records.
@@ -22,7 +42,7 @@ def save_analysis(data):
     }
 
     # PERSIST TO LOCAL JSON FALLBACK DATABASE FILE (Ensures instant out-of-the-box operation)
-    db_path = '/tmp/db_audit_logs.json'
+    db_path = get_db_path(for_writing=True)
     logs = []
     if os.path.exists(db_path):
         try:

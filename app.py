@@ -5,7 +5,7 @@ import os
 from deforestation import analyze_deforestation
 from prediction import predict_future
 from alerts import generate_alert
-from database import save_analysis
+from database import save_analysis, get_db_path
 from visualization import create_chart_data
 
 app = Flask(__name__)
@@ -171,9 +171,9 @@ def analyze():
 @app.route('/api/logs', methods=['GET'])
 def get_logs():
     try:
-        db_path = '/tmp/db_audit_logs.json'
+        db_path = get_db_path()
         if os.path.exists(db_path):
-            with open(db_path, 'r') as f:
+            with open(db_path, 'r', encoding='utf-8') as f:
                 logs = json.load(f)
             return jsonify(logs)
         return jsonify([])
@@ -186,8 +186,8 @@ def get_logs():
 @app.route('/api/logs/clear', methods=['POST'])
 def clear_logs():
     try:
-        db_path = '/tmp/db_audit_logs.json'
-        with open(db_path, 'w') as f:
+        db_path = get_db_path(for_writing=True)
+        with open(db_path, 'w', encoding='utf-8') as f:
             json.dump([], f)
         return jsonify({"status": "Success"})
     except Exception as e:
@@ -199,12 +199,12 @@ def clear_logs():
 @app.route('/api/logs/<int:log_id>', methods=['DELETE'])
 def delete_log(log_id):
     try:
-        db_path = '/tmp/db_audit_logs.json'
+        db_path = get_db_path(for_writing=True)
         if os.path.exists(db_path):
-            with open(db_path, 'r') as f:
+            with open(db_path, 'r', encoding='utf-8') as f:
                 logs = json.load(f)
             logs = [log for log in logs if log.get('id') != log_id]
-            with open(db_path, 'w') as f:
+            with open(db_path, 'w', encoding='utf-8') as f:
                 json.dump(logs, f, indent=2)
         return jsonify({"status": "Success"})
     except Exception as e:
