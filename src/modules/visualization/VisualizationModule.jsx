@@ -216,7 +216,7 @@ const generateIndicatorDots = (centroid, outerCoords, forestPercent) => {
   return dots;
 };
 
-const BACKEND = 'http://localhost:5000';
+const BACKEND = '';
 
 const VisualizationModule = () => {
   const routerLocation = useLocation();

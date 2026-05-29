@@ -289,7 +289,7 @@ const DatabaseModule = () => {
 
   const fetchDbLogs = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/logs');
+      const response = await fetch('/api/logs');
       const data = await response.json();
       if (Array.isArray(data) && data.length > 0) {
         setLogs(data);
@@ -411,7 +411,7 @@ const DatabaseModule = () => {
   const clearLogs = async () => {
     if (!window.confirm("Are you sure you want to clear the audit logs?")) return;
     try {
-      const response = await fetch('http://localhost:5000/api/logs/clear', {
+      const response = await fetch('/api/logs/clear', {
         method: 'POST'
       });
       const data = await response.json();

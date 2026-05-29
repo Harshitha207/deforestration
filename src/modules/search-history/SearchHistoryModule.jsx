@@ -59,7 +59,7 @@ const SearchHistoryModule = () => {
   const fetchDbLogs = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/logs');
+      const response = await fetch('/api/logs');
       const data = await response.json();
       if (Array.isArray(data) && data.length > 0) {
         setLogs(data);
@@ -81,7 +81,7 @@ const SearchHistoryModule = () => {
   const clearLogs = async () => {
     if (!window.confirm("Are you sure you want to clear the search history?")) return;
     try {
-      const response = await fetch('http://localhost:5000/api/logs/clear', {
+      const response = await fetch('/api/logs/clear', {
         method: 'POST'
       });
       const data = await response.json();
@@ -99,7 +99,7 @@ const SearchHistoryModule = () => {
   const deleteLog = async (id) => {
     if (!window.confirm("Are you sure you want to delete this log entry?")) return;
     try {
-      const response = await fetch(`http://localhost:5000/api/logs/${id}`, {
+      const response = await fetch(`/api/logs/${id}`, {
         method: 'DELETE'
       });
       const data = await response.json();
